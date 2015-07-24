@@ -1,10 +1,14 @@
 package com.test.java.base;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class TestDouble {
 
 	public static void main(String[] args) {
         String str=null;
         System.out.println(""+get3BrStr( str));
+        System.out.println(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 	}
 	
 	
