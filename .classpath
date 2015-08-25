@@ -2,11 +2,15 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="D:/git2015/ApplicationDesign/libs/commons-logging-1.2.jar"/>
-	<classpathentry kind="lib" path="D:/git2015/ApplicationDesign/libs/flexjson-2.1.jar"/>
-	<classpathentry kind="lib" path="D:/git2015/ApplicationDesign/libs/httpclient-4.5.jar"/>
-	<classpathentry kind="lib" path="D:/git2015/ApplicationDesign/libs/httpcore-4.4.1.jar"/>
-	<classpathentry kind="lib" path="D:/git2015/ApplicationDesign/libs/httpmime-4.5.jar"/>
-	<classpathentry kind="lib" path="D:/git2015/ApplicationDesign/libs/XingeApp.jar"/>
+	<classpathentry kind="lib" path="E:/【GitProject】/ApplicationExample/libs/commons-collections4-4.0.jar"/>
+	<classpathentry kind="lib" path="E:/【GitProject】/ApplicationExample/libs/commons-collections4-4.0-javadoc.jar"/>
+	<classpathentry kind="lib" path="E:/【GitProject】/ApplicationExample/libs/commons-collections4-4.0-sources.jar"/>
+	<classpathentry kind="lib" path="E:/【GitProject】/ApplicationExample/libs/commons-lang3-3.4.jar"/>
+	<classpathentry kind="lib" path="E:/【GitProject】/ApplicationExample/libs/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="E:/【GitProject】/ApplicationExample/libs/flexjson-2.1.jar"/>
+	<classpathentry kind="lib" path="E:/【GitProject】/ApplicationExample/libs/httpclient-4.5.jar"/>
+	<classpathentry kind="lib" path="E:/【GitProject】/ApplicationExample/libs/httpcore-4.4.1.jar"/>
+	<classpathentry kind="lib" path="E:/【GitProject】/ApplicationExample/libs/httpmime-4.5.jar"/>
+	<classpathentry kind="lib" path="E:/【GitProject】/ApplicationExample/libs/XingeApp.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
