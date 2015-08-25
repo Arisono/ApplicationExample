@@ -8,5 +8,5 @@ package com.test.java.desgin.factory;
  *
  */
 public interface Provider {
-	 public Sender produce();  
+	public Sender produce();
 }

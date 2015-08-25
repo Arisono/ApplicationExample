@@ -8,9 +8,9 @@ package com.test.java.desgin.adapter;
  *
  */
 public interface Targetable {
-	/* ÓëÔ­ÀàÖĞµÄ·½·¨ÏàÍ¬ */  
-    public void method1();  
-  
-    /* ĞÂÀàµÄ·½·¨ */  
-    public void method2();  
+	/* ï¿½ï¿½Ô­ï¿½ï¿½ï¿½ĞµÄ·ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ */
+	public void method1();
+
+	/* ï¿½ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½ */
+	public void method2();
 }

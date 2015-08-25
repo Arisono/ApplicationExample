@@ -1,13 +1,15 @@
 package com.test.java.base;
 
 import java.util.ArrayList;
+
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * @author :LiuJie 2015Äê8ÔÂ12ÈÕ ÏÂÎç1:41:35
- * @×¢ÊÍ:Json½âÎö
+ * @author :LiuJie 2015ï¿½ï¿½8ï¿½ï¿½12ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½1:41:35
+ * @×¢ï¿½ï¿½:Jsonï¿½ï¿½ï¿½ï¿½
  */
 public class JsonTest {
 
@@ -17,7 +19,7 @@ public class JsonTest {
 		TestJsonDateList();
 	}
 	
-	//½âÎöÊý×éÐÎÊ½µÄjson¸ñÊ½
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½jsonï¿½ï¿½Ê½
 	public  static void  TestJsonDateList(){
 		String json="[{\"account\":\"200040149\",\"platform\":\"B2B\"},{\"account\":\"YINGP\",\"master\":\"UAS\",\"platform\":\"ERP\",\"website\":\"http://218.17.158.219:8090/ERP/\"},{\"account\":\"ADMIN\",\"master\":\"SAAS_10041166\",\"platform\":\"ERP\",\"website\":\"http://aaa.saas.ubtob.com\"}]";
 		System.out.println(json);
@@ -25,13 +27,11 @@ public class JsonTest {
 		System.out.println(logMsg.size());
 		if (logMsg!=null&&!logMsg.isEmpty()) {
 			for (int i = 0; i <logMsg.size(); i++) {
-				@SuppressWarnings("unchecked")
 				Map<String, Object> map=(HashMap<String, Object>)logMsg.get(i);
 				if (map.get("platform").toString().equals("ERP")) {
 					System.out.println("ERP:"+	map.get("platform").toString());
 					System.out.println("ERP:"+	map.get("account").toString());
 					System.out.println("ERP:"+	map.get("website").toString());
-					System.out.println("ERP:"+	map.get("master").toString());
 				}else if (map.get("platform").toString().equals("B2B")) {
 					System.out.println(	"B2B:"+	map.get("platform").toString());
 					System.out.println(	"B2B:"+	map.get("account").toString());
@@ -45,7 +45,7 @@ public class JsonTest {
 		}
 	}
 	
-	/**@×¢ÊÍ£ºlist ÅúÁ¿É¾³ý  */
+	/**@×¢ï¿½Í£ï¿½list ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½  */
 	public  static void TestJsonData(){
 		 ArrayList<String> niArrayList=new ArrayList<String>();
 //	       niArrayList.add("niha");

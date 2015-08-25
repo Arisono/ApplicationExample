@@ -4,8 +4,7 @@
 package com.test.java.desgin.adapter;
 
 /**
- * @author LiuJie
- * ÊÊÅäÆ÷Ä£Ê½
+ * @author LiuJie ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£Ê½
  */
 public class AdapterTest {
 
@@ -14,11 +13,11 @@ public class AdapterTest {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		/**×¢ÊÍ£º½Ó¿Ú  =×Ó½Ó¿Ú  ÏòÉÏ×ªĞÍ */
-		/**×¢ÊÍ£ºÀàµÄÊÊÅäÆ÷Ä£Ê½ */
-        Targetable target=new Adapter();
-        target.method1();
-        target.method2();
+		/** ×¢ï¿½Í£ï¿½ï¿½Ó¿ï¿½ =ï¿½Ó½Ó¿ï¿½ ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ */
+		/** ×¢ï¿½Í£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£Ê½ */
+		Targetable target = new Adapter();
+		target.method1();
+		target.method2();
 	}
 
 }
