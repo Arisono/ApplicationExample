@@ -17,8 +17,10 @@ import java.util.Set;
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpVersion;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.CookieStore;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -89,6 +91,7 @@ public class HttpUtil {
 				buf.append("&_signature=").append(HmacUtils.encode(message));
 			} else
 				buf.deleteCharAt(buf.length() - 1);
+			System.out.println("buf.toString="+buf.toString());
 			HttpGet httpGet = new HttpGet(buf.toString());
 			response = httpClient.execute(httpGet);
 			return Response.getResponse(response);
@@ -314,6 +317,7 @@ public class HttpUtil {
 	public static class Response {
 		private int statusCode;
 		private String responseText;
+		private CookieStore cookieStore;
 
 		public int getStatusCode() {
 			return statusCode;
@@ -329,6 +333,15 @@ public class HttpUtil {
 
 		public void setResponseText(String responseText) {
 			this.responseText = responseText;
+		}
+          
+		
+		public CookieStore getCookieStore() {
+			return cookieStore;
+		}
+
+		public void setCookieStore(CookieStore cookieStore) {
+			this.cookieStore = cookieStore;
 		}
 
 		public Response() {

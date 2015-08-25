@@ -16,15 +16,42 @@ import com.tencent.xinge.XingeApp;
 public class Demo {
 
 	public static void main(String[] args) {
-
-		JSONObject ret;
-		Demo t = new Demo();
-		ret = t.demoPushSingleAccount();
-		System.out.println(ret);
-
+		JSONObject object=	XingePusher.pushSingleAccountAndroid(
+				"HUASL_SZ", 
+				"13798490565", 
+				"新的单据", 
+				"测试单据",
+				"10041106", 
+				"jsps/mobile/task.jsp?caller=ResourceAssignment!Bill%26id=484060",
+				"待办事宜");
+//		JSONObject object=	XingePusher.pushSingleAccountAndroid(
+//				"DataCenter", 
+//				"13798490565", 
+//				"新的单据", 
+//				"测试单据",
+//				"10041106", 
+//				"jsps/mobile/task.jsp?caller=ResourceAssignment!Bill%26id=484060",
+//				"待办事宜");
+//		JSONObject object=	XingePusher.pushSingleAccountAndroid(
+//				"HUASL_SZ", 
+//				"13798490565", 
+//				"新的单据", 
+//				"测试单据",
+//				"10041106", 
+//				"jsps/mobile/task.jsp?caller=ResourceAssignment!Bill%26id=484060",
+//				"待办事宜");
+//		
+//		JSONObject object=	XingePusher.pushSingleAccountAndroid(
+//				"UAS", 
+//				"13798490565", 
+//				"新的单据", 
+//				"测试单据",
+//				"10041166", 
+//				"jsps/mobile/task.jsp?caller=ResourceAssignment!Bill%26id=484060",
+//				"待办事宜");
+      System.out.println(object.toString());
 	}
 
-	// �����豸�·�͸����Ϣ
 	protected JSONObject demoPushSingleDeviceMessage() {
 		XingeApp xinge = new XingeApp(000, "secret_key");
 		Message message = new Message();
@@ -37,44 +64,19 @@ public class Demo {
 		return ret;
 	}
 
-	// �����豸�·�֪ͨ��Ϣ
 	protected JSONObject demoPushSingleDeviceNotification() {
 		XingeApp xinge = new XingeApp(000, "secret_key");
 		JSONObject ret = xinge.pushSingleDevice("token", message1);
 		return (ret);
 	}
 
-	// �����豸�·�֪ͨ��Ϣ
-	// protected JSONObject demoPushSingleDeviceIOS()
-	// {
-	// MessageIOS message = new MessageIOS();
-	// message.setExpireTime(86400);
-	// message.setAlert("ios test");
-	// message.setBadge(1);
-	// message.setSound("beep.wav");
-	// TimeInterval acceptTime1 = new TimeInterval(0,0,23,59);
-	// message.addAcceptTime(acceptTime1);
-	// Map<String, Object> custom = new HashMap<String, Object>();
-	// custom.put("key1", "value1");
-	// custom.put("key2", 2);
-	// message.setCustom(custom);
-	//
-	// XingeApp xinge = new XingeApp(000L, "secret_key");
-	// JSONObject ret = xinge.pushSingleDevice("token", message,
-	// XingeApp.IOSENV_DEV);
-	// return (ret);
-	// }
 
-	// �����豸�·�֪ͨIntent
-	// setIntent()��������Ҫʹ��intent.toUri(Intent.URI_INTENT_SCHEME)�������õ����л����Intent(�Զ������Ҳ����Intent�ڣ�
-	// �ն��յ����ͨ��intent.parseUri()�������л��õ�Intent
 	protected JSONObject demoPushSingleDeviceNotificationIntent() {
 		XingeApp xinge = new XingeApp(000, "secret_key");
 		JSONObject ret = xinge.pushSingleDevice("token", message2);
 		return (ret);
 	}
 
-	// �·������˺�
 	protected JSONObject demoPushSingleAccount() {
 		XingeApp xinge = new XingeApp(2100046094,
 				"5805cd8bf93ea5405c98b3a6e81e29b3");
@@ -90,7 +92,6 @@ public class Demo {
 		return (ret);
 	}
 
-	// �·�����˺�
 	protected JSONObject demoPushAccountList() {
 		XingeApp xinge = new XingeApp(000, "secret_key");
 		Message message = new Message();
@@ -105,44 +106,7 @@ public class Demo {
 		return (ret);
 	}
 
-	// //�·�IOS�����˺�
-	// protected JSONObject demoPushSingleAccountIOS() {
-	// MessageIOS message = new MessageIOS();
-	// message.setExpireTime(86400);
-	// message.setAlert("ios test");
-	// message.setBadge(1);
-	// message.setSound("beep.wav");
-	// TimeInterval acceptTime1 = new TimeInterval(0,0,23,59);
-	// message.addAcceptTime(acceptTime1);
-	// Map<String, Object> custom = new HashMap<String, Object>();
-	// custom.put("key1", "value1");
-	// custom.put("key2", 2);
-	// message.setCustom(custom);
-	//
-	// XingeApp xinge = new XingeApp(000, "secret_key");
-	// JSONObject ret = xinge.pushSingleAccount(0, "joelliu", message,
-	// XingeApp.IOSENV_DEV);
-	// return (ret);
-	// }
-	//
-	// //�·�IOS����˺�
-	// protected JSONObject demoPushAccountListIOS() {
-	// MessageIOS message = new MessageIOS();
-	// message.setExpireTime(86400);
-	// message.setAlert("ios test");
-	// message.setBadge(1);
-	// message.setSound("beep.wav");
-	//
-	// XingeApp xinge = new XingeApp(000, "secret_key");
-	// List<String> accountList = new ArrayList<String>();
-	// accountList.add("joelliu");
-	// accountList.add("joelliu");
-	// JSONObject ret = xinge.pushAccountList(0, accountList, message,
-	// XingeApp.IOSENV_DEV);
-	// return (ret);
-	// }
-
-	// �·������豸
+	
 	protected JSONObject demoPushAllDevice() {
 		XingeApp xinge = new XingeApp(000, "secret_key");
 
@@ -150,7 +114,6 @@ public class Demo {
 		return (ret);
 	}
 
-	// �·���ǩѡ���豸
 	protected JSONObject demoPushTags() {
 		XingeApp xinge = new XingeApp(000, "secret_key");
 		List<String> tagList = new ArrayList<String>();
@@ -160,7 +123,6 @@ public class Demo {
 		return (ret);
 	}
 
-	// ��ѯ��Ϣ����״̬
 	protected JSONObject demoQueryPushStatus() {
 		XingeApp xinge = new XingeApp(000, "secret_key");
 		List<String> pushIdList = new ArrayList<String>();
@@ -170,76 +132,36 @@ public class Demo {
 		return (ret);
 	}
 
-	// ��ѯ�豸����
 	protected JSONObject demoQueryDeviceCount() {
 		XingeApp xinge = new XingeApp(000, "secret_key");
 		JSONObject ret = xinge.queryDeviceCount();
 		return (ret);
 	}
 
-	// ��ѯ��ǩ
 	protected JSONObject demoQueryTags() {
 		XingeApp xinge = new XingeApp(000, "secret_key");
 		JSONObject ret = xinge.queryTags();
 		return (ret);
 	}
-
-	// ��ѯĳ��tag��token������
 	protected JSONObject demoQueryTagTokenNum() {
 		XingeApp xinge = new XingeApp(000, "secret_key");
 		JSONObject ret = xinge.queryTagTokenNum("tag");
 		return (ret);
 	}
 
-	// ��ѯĳ��token�ı�ǩ
 	protected JSONObject demoQueryTokenTags() {
 		XingeApp xinge = new XingeApp(000, "secret_key");
 		JSONObject ret = xinge.queryTokenTags("token");
 		return (ret);
 	}
 
-	// ȡ��ʱ����
 	protected JSONObject demoCancelTimingPush() {
 		XingeApp xinge = new XingeApp(000, "secret_key");
 		JSONObject ret = xinge.cancelTimingPush("32");
 		return (ret);
 	}
 
-	// // ���ñ�ǩ
-	// protected JSONObject DemoBatchSetTag()
-	// {
-	// XingeApp xinge = new XingeApp(000, "secret_key");
-	//
-	// List<TagTokenPair> pairs = new ArrayList<TagTokenPair>();
-	//
-	// // �мǰ������ʾ��tag��ʾ��token�޸�Ϊ�����ʵtag����ʵtoken
-	// pairs.add(new
-	// TagTokenPair("tag1","token00000000000000000000000000000000001"));
-	// pairs.add(new
-	// TagTokenPair("tag2","token00000000000000000000000000000000001"));
-	//
-	// JSONObject ret = xinge.BatchSetTag(pairs);
-	// return (ret);
-	// }
-
-	// ɾ���ǩ
-	// protected JSONObject DemoBatchDelTag()
-	// {
-	// XingeApp xinge = new XingeApp(000, "secret_key");
-	//
-	// List<TagTokenPair> pairs = new ArrayList<TagTokenPair>();
-	//
-	// // �мǰ������ʾ��tag��ʾ��token�޸�Ϊ�����ʵtag����ʵtoken
-	// pairs.add(new
-	// TagTokenPair("tag1","token00000000000000000000000000000000001"));
-	// pairs.add(new
-	// TagTokenPair("tag2","token00000000000000000000000000000000001"));
-	//
-	// JSONObject ret = xinge.BatchDelTag(pairs);
-	//
-	// return (ret);
-	// }
-	//
+	
 	public Demo() {
 		message1 = new Message();
 		message1.setType(Message.TYPE_NOTIFICATION);
