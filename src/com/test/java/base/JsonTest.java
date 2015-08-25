@@ -1,11 +1,12 @@
 package com.test.java.base;
 
 import java.util.ArrayList;
-
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.test.android.entity.LoginEntity;
+
 
 /**
  * @author :LiuJie 2015��8��12�� ����1:41:35
@@ -15,11 +16,10 @@ public class JsonTest {
 
 	public static void main(String[] args) {
       
-		//
-		TestJsonDateList();
+		testJsonEntity();
+		//TestJsonDateList();
 	}
 	
-	//����������ʽ��json��ʽ
 	public  static void  TestJsonDateList(){
 		String json="[{\"account\":\"200040149\",\"platform\":\"B2B\"},{\"account\":\"YINGP\",\"master\":\"UAS\",\"platform\":\"ERP\",\"website\":\"http://218.17.158.219:8090/ERP/\"},{\"account\":\"ADMIN\",\"master\":\"SAAS_10041166\",\"platform\":\"ERP\",\"website\":\"http://aaa.saas.ubtob.com\"}]";
 		System.out.println(json);
@@ -45,9 +45,15 @@ public class JsonTest {
 		}
 	}
 	
-	/**@ע�ͣ�list ����ɾ��  */
+	public static void testJsonEntity(){
+		String url="[{\"account\":\"200040149\",\"platform\":\"B2B\"},{\"account\":\"YINGP\",\"master\":\"DataCenter\",\"platform\":\"ERP\",\"website\":\"http://218.18.115.198:8098/ERP/\"},{\"account\":\"YINGP\",\"master\":\"UAS\",\"platform\":\"ERP\",\"website\":\"http://218.17.158.219:8090/ERP/\"}]";
+		List<LoginEntity> logMsg=FlexJsonUtil.fromJsonArray(url,LoginEntity.class);
+		System.out.println(logMsg.size());
+		System.out.println(logMsg.get(1).getAccount());
+	}
+	
 	public  static void TestJsonData(){
-		 ArrayList<String> niArrayList=new ArrayList<String>();
+		   ArrayList<String> niArrayList=new ArrayList<String>();
 //	       niArrayList.add("niha");
 //	       String liString=  FlexJsonUtil.toJsonArray(niArrayList);
 //	       List<String> newList=  FlexJsonUtil.fromJsonArray(liString, String.class);
