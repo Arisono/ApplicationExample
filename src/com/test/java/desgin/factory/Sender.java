@@ -8,5 +8,5 @@ package com.test.java.desgin.factory;
  *
  */
 public interface Sender {
-    public void Send();  
+	public void Send();
 }

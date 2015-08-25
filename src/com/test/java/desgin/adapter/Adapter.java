@@ -8,14 +8,16 @@ package com.test.java.desgin.adapter;
  *
  */
 public class Adapter extends Source implements Targetable {
-	/**×¢ÊÍ£º½Ó¿Ú·½·¨·½·¨1Ã»ÓÐÊµÏÖ£¬Ö÷ÒªÊÇ¼Ì³ÐÁËSource ÖÐµÄ·½·¨1 */
+	/** ×¢ï¿½Í£ï¿½ï¿½Ó¿Ú·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1Ã»ï¿½ï¿½Êµï¿½Ö£ï¿½ï¿½ï¿½Òªï¿½Ç¼Ì³ï¿½ï¿½ï¿½Source ï¿½ÐµÄ·ï¿½ï¿½ï¿½1 */
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.test.java.desgin.adapter.Targetable#method2()
 	 */
 	@Override
 	public void method2() {
-		System.out.println("this is the targetable method!");  
+		System.out.println("this is the targetable method!");
 	}
 
 }

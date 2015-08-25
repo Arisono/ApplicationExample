@@ -9,8 +9,9 @@ package com.test.java.desgin.factory;
  */
 public class SendMailFactory implements Provider {
 
-	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.test.java.desgin.Provider#produce()
 	 */
 	@Override

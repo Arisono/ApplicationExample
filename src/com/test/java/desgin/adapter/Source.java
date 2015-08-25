@@ -3,13 +3,14 @@
  */
 package com.test.java.desgin.adapter;
 
-/**适配器模式
- * @author LiuJie
- * 源目标
+/**
+ * 锟斤拷锟斤拷锟斤拷模式
+ * 
+ * @author LiuJie 源目锟斤拷
  */
-public class Source {  
-	  
-    public void method1() {  
-        System.out.println("this is original method!");  
-    }  
-}  
+public class Source {
+
+	public void method1() {
+		System.out.println("this is original method!");
+	}
+}
