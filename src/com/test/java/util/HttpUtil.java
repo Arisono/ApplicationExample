@@ -34,7 +34,10 @@ import org.apache.http.message.BasicNameValuePair;
 
 import com.test.java.SHA256.HmacUtils;
 
-
+/**
+ * @author :LiuJie 2015年9月3日 上午8:48:22
+ * @注释:工具类
+ */
 public class HttpUtil {
 
 	public static Response sendGetRequest(String url, Map<String, String> params)
@@ -53,7 +56,6 @@ public class HttpUtil {
 				buf.append("?");
 			else if (!url.endsWith("&"))
 				buf.append("&");
-			// 濡傛灉鏄疓ET璇锋眰锛屽垯璇锋眰鍙傛暟鍦║RL涓�
 			if (params != null && !params.isEmpty()) {
 				Set<Entry<String, String>> entrys = params.entrySet();
 				for (Map.Entry<String, String> entry : entrys) {
@@ -87,14 +89,6 @@ public class HttpUtil {
 		}
 	}
 
-	/**
-	 * 鍙戦�POST璇锋眰
-	 * 
-	 * @param url
-	 * @param params
-	 * @return
-	 * @throws Exception
-	 */
 	public static Response sendPostRequest(String url,
 			Map<String, String> params) throws Exception {
 		return sendPostRequest(url, params, false);
@@ -183,9 +177,6 @@ public class HttpUtil {
 		outStream.write(data);
 		outStream.flush();
 		outStream.close();
-		// if (conn.getResponseCode() == HttpStatus.OK.value()) {
-		// return read2Byte(conn.getInputStream());
-		// }
 		return null;
 	}
 
