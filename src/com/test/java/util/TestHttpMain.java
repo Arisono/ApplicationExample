@@ -19,10 +19,6 @@ public class TestHttpMain {
 		 //testHttpHead();
 	    //
 		loginERP();
-	
-	
-	
-	
 	}
 
 	
