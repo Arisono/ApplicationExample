@@ -1,12 +1,19 @@
 package com.test.android.xinge;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
+import org.apache.commons.lang3.SystemUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.json.JSONObject;
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
 import com.tencent.xinge.ClickAction;
 import com.tencent.xinge.Message;
 import com.tencent.xinge.Style;
@@ -16,14 +23,73 @@ import com.tencent.xinge.XingeApp;
 public class Demo {
 
 	public static void main(String[] args) {
+		
+		Timer timer=new Timer();
+		TimerTask task=new TimerTask() {
+			int i=0;
+			@Override
+			public void run() {
+				System.out.println(getSysCurrtentTime()+"推送i="+i++);
+				TestAppPush();
+				TestIOSAppPush();
+			}
+		};
+		timer.schedule(task, 10000,10000);
+		
+	}
+    
+	public static String getSysCurrtentTime(){
+		return new SimpleDateFormat("yyyy:MM:dd HH:mm:ss").format(new Date(System.currentTimeMillis()));
+	}
+	
+	private static void TestAppPush() {
 		JSONObject object=	XingePusher.pushSingleAccountAndroid(
 				"HUASL_SZ", 
 				"13798490565", 
-				"新的单据", 
+				"您有一条新的采购单", 
 				"测试单据",
 				"10041106", 
 				"jsps/mobile/task.jsp?caller=ResourceAssignment!Bill%26id=484060",
-				"待办事宜");
+				"我的任务");
+		
+//		JSONObject object=	XingePusher.pushSingleAccountAndroid(
+//				"DataCenter", 
+//				"13798490565", 
+//				"新的单据", 
+//				"测试单据",
+//				"10041106", 
+//				"jsps/mobile/task.jsp?caller=ResourceAssignment!Bill%26id=484060",
+//				"待办事宜");
+//		JSONObject object=	XingePusher.pushSingleAccountAndroid(
+//				"HUASL_SZ", 
+//				"13798490565", 
+//				"新的单据", 
+//				"测试单据",
+//				"10041106", 
+//				"jsps/mobile/task.jsp?caller=ResourceAssignment!Bill%26id=484060",
+//				"待办事宜");
+//		
+//		JSONObject object=	XingePusher.pushSingleAccountAndroid(
+//				"UAS", 
+//				"13798490565", 
+//				"新的单据", 
+//				"测试单据",
+//				"10041166", 
+//				"jsps/mobile/task.jsp?caller=ResourceAssignment!Bill%26id=484060",
+//				"待办事宜");
+      System.out.println(object.toString());
+	}
+
+	private static void TestIOSAppPush() {
+		JSONObject object=	XingePusher.pushSingleAccountIOS(
+				"HUASL_SZ", 
+				"13798490565", 
+				"您有一条新的采购单", 
+				"测试单据",
+				"10041106", 
+				"jsps/mobile/task.jsp?caller=ResourceAssignment!Bill%26id=484060",
+				"我的任务");
+		
 //		JSONObject object=	XingePusher.pushSingleAccountAndroid(
 //				"DataCenter", 
 //				"13798490565", 

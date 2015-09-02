@@ -17,7 +17,6 @@ import java.util.Set;
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpVersion;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CookieStore;
@@ -35,36 +34,15 @@ import org.apache.http.message.BasicNameValuePair;
 
 import com.test.java.SHA256.HmacUtils;
 
-/**
- * HTTP宸ュ叿绫伙紝灏佽http get\post璇锋眰
- * 
- * @author suntg
- * @date 2015骞�鏈�鏃�4:20:40
- */
+
 public class HttpUtil {
-	/**
-	 * 鍙戦�GET璇锋眰
-	 * 
-	 * @param url
-	 * @param params
-	 * @return
-	 * @throws Exception
-	 */
+
 	public static Response sendGetRequest(String url, Map<String, String> params)
 			throws Exception {
 		return sendGetRequest(url, params, false);
 	}
 
-	/**
-	 * 鍙戦�GET璇锋眰
-	 * 
-	 * @param url
-	 * @param params
-	 * @param sign
-	 *            鏄惁鍙戦�绛惧悕
-	 * @return
-	 * @throws Exception
-	 */
+
 	public static Response sendGetRequest(String url,
 			Map<String, String> params, boolean sign) throws Exception {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -122,23 +100,14 @@ public class HttpUtil {
 		return sendPostRequest(url, params, false);
 	}
 
-	/**
-	 * 鍙戦�POST璇锋眰
-	 * 
-	 * @param url
-	 * @param params
-	 * @param sign
-	 *            鏄惁鍙戦�绛惧悕
-	 * @return
-	 * @throws Exception
-	 */
+	
 	public static Response sendPostRequest(String url,
 			Map<String, String> params, boolean sign) throws Exception {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		CloseableHttpResponse response = null;
 		if (sign) {
 			url += (url.indexOf("?") == -1 ? "?" : "&") + "_timestamp="
-					+Long.valueOf("1440472633153");
+					+Long.valueOf("1441180144");
 			url += "&_signature=" + HmacUtils.encode(url);
 		}
 		System.out.println(url);
@@ -170,13 +139,6 @@ public class HttpUtil {
 		}
 	}
 
-	/**
-	 * 灏嗚緭鍏ユ祦杞负瀛楄妭鏁扮粍
-	 * 
-	 * @param inStream
-	 * @return
-	 * @throws Exception
-	 */
 	public static byte[] read2Byte(InputStream inStream) throws Exception {
 		ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
 		byte[] buffer = new byte[1024];
@@ -189,13 +151,7 @@ public class HttpUtil {
 		return outSteam.toByteArray();
 	}
 
-	/**
-	 * 灏嗚緭鍏ユ祦杞负瀛楃涓�
-	 * 
-	 * @param inStream
-	 * @return
-	 * @throws Exception
-	 */
+
 	public static String read2String(InputStream inStream) throws Exception {
 		ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
 		byte[] buffer = new byte[1024];
@@ -212,18 +168,7 @@ public class HttpUtil {
 		return new String(outSteam.toByteArray(), "UTF-8");
 	}
 
-	/**
-	 * 鍙戦�xml鏁版嵁
-	 * 
-	 * @param path
-	 *            璇锋眰鍦板潃
-	 * @param xml
-	 *            xml鏁版嵁
-	 * @param encoding
-	 *            缂栫爜
-	 * @return
-	 * @throws Exception
-	 */
+	
 	public static byte[] postXml(String path, String xml, String encoding)
 			throws Exception {
 		byte[] data = xml.getBytes(encoding);
@@ -244,20 +189,7 @@ public class HttpUtil {
 		return null;
 	}
 
-	/**
-	 * http涓婁紶鏂囦欢
-	 * 
-	 * @param postUrl
-	 *            璇锋眰鍦板潃
-	 * @param filePath
-	 *            闄勪欢璺緞
-	 * @param params
-	 *            鍙傛暟
-	 * @return
-	 * @throws Exception
-	 * @throws IOException
-	 * @throws IllegalStateException
-	 */
+
 	public static Response upload(String postUrl, String filePath,
 			Map<String, String> params) throws IllegalStateException,
 			IOException, Exception {
@@ -298,14 +230,7 @@ public class HttpUtil {
 		return Response.getResponse(response);
 	}
 
-	/**
-	 * 涓嬭浇
-	 * 
-	 * @param postUrl
-	 * @return
-	 * @throws ClientProtocolException
-	 * @throws IOException
-	 */
+
 	public static InputStream download(String postUrl)
 			throws ClientProtocolException, IOException {
 		CloseableHttpClient httpClient = HttpClients.createDefault();

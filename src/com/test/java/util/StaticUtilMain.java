@@ -7,8 +7,8 @@ package com.test.java.util;
 public class StaticUtilMain {
 
 	public static void main(String[] args) {
-		  StaticUtil.TestLogin();
-          StaticUtil.TestLogin();
+//		  StaticUtil.TestLogin();
+//          StaticUtil.TestLogin();
           StaticUtil.TestLoginB2B();
 	}
 	
