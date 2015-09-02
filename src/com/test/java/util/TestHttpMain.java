@@ -1,15 +1,11 @@
 package com.test.java.util;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.client.methods.HttpGet;
 
-import com.test.android.entity.LoginEntity;
-import com.test.java.base.FlexJsonUtil;
 import com.test.java.util.HttpUtil;
 import com.test.java.util.HttpUtil.Response;
 /**

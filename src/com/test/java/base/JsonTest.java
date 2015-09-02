@@ -7,11 +7,6 @@ import java.util.Map;
 
 import com.test.android.entity.LoginEntity;
 
-
-/**
- * @author :LiuJie 2015��8��12�� ����1:41:35
- * @ע��:Json����
- */
 public class JsonTest {
 
 	public static void main(String[] args) {
@@ -78,5 +73,4 @@ public class JsonTest {
 				
 			}
 	}
-
 }
