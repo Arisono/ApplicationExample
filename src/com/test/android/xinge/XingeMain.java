@@ -20,7 +20,7 @@ import com.tencent.xinge.Style;
 import com.tencent.xinge.TimeInterval;
 import com.tencent.xinge.XingeApp;
 
-public class Demo {
+public class XingeMain {
 
 	public static void main(String[] args) {
 		
@@ -30,11 +30,11 @@ public class Demo {
 			@Override
 			public void run() {
 				System.out.println(getSysCurrtentTime()+"推送i="+i++);
-				TestAppPush();
-				TestIOSAppPush();
+				TestAppPush("ni",getSysCurrtentTime());
+				//TestIOSAppPush();
 			}
 		};
-		timer.schedule(task, 10000,10000);
+		timer.schedule(task, 1000,3000000);
 		
 	}
     
@@ -42,12 +42,12 @@ public class Demo {
 		return new SimpleDateFormat("yyyy:MM:dd HH:mm:ss").format(new Date(System.currentTimeMillis()));
 	}
 	
-	private static void TestAppPush() {
+	private static void TestAppPush(String title,String time) {
 		JSONObject object=	XingePusher.pushSingleAccountAndroid(
 				"HUASL_SZ", 
 				"13798490565", 
-				"您有一条新的采购单", 
-				"测试单据",
+				 title, 
+				"测试单据      时间:"+time,
 				"10041106", 
 				"jsps/mobile/task.jsp?caller=ResourceAssignment!Bill%26id=484060",
 				"我的任务");
@@ -228,7 +228,7 @@ public class Demo {
 	}
 
 	
-	public Demo() {
+	public XingeMain() {
 		message1 = new Message();
 		message1.setType(Message.TYPE_NOTIFICATION);
 		Style style = new Style(1);

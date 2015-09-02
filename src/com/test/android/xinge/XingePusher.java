@@ -15,7 +15,7 @@ import com.tencent.xinge.XingeApp;
 
 /**
  * 信鸽推送
- * @author suntg
+ * @author LiuJ
  * @date 2015年3月7日10:01:04
  *
  */
@@ -79,7 +79,7 @@ public class XingePusher {
 		map.put("enuu", enUU);
 		map.put("master", master);
 		map.put("platform", "ERP");
-		if(StringUtils.isEmpty(url)) {
+		if(!StringUtils.isEmpty(url)) {
 			map.put("url", url);
 		}
 		message.setCustom(map);
@@ -110,6 +110,5 @@ public class XingePusher {
 			return new JSONObject[2];
 		}
 	}
-	
 
 }

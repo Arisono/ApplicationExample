@@ -15,7 +15,7 @@ import com.test.java.util.HttpUtil.Response;
 public class StaticUtil {
 	
 	public  static void TestLogin() {
-    	String url="http://192.168.253.167:8080/platform-manage/public/account";
+    	String url="http://manage.ubtob.com/public/account";
 		Map<String, String> param =new HashMap<String, String>();
 	    param.put("user", "13798490565");
 	    param.put("password", "123456");
