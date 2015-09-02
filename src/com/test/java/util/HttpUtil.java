@@ -91,7 +91,7 @@ public class HttpUtil {
 				buf.append("&_signature=").append(HmacUtils.encode(message));
 			} else
 				buf.deleteCharAt(buf.length() - 1);
-			System.out.println("buf.toString="+buf.toString());
+			System.out.println("请求url:"+buf.toString());
 			HttpGet httpGet = new HttpGet(buf.toString());
 			response = httpClient.execute(httpGet);
 			return Response.getResponse(response);

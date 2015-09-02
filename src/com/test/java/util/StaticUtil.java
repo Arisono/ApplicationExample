@@ -6,59 +6,69 @@ import java.util.Map;
 import org.apache.http.Header;
 import org.apache.http.client.methods.HttpGet;
 
-import com.test.java.util.HttpUtil;
 import com.test.java.util.HttpUtil.Response;
+
 /**
- * @author :LiuJie 2015年8月25日 下午2:40:14
- * @注释:  测试Http请求的类
+ * @author :LiuJie 2015年9月2日 上午9:28:28
+ * @注释:静态类
  */
-public class TestHttpMain {
-
-	public static void main(String[] args) {
-		//测试http请求头
-		 //testHttpHead();
-	    //
-		loginERP();
+public class StaticUtil {
 	
-	
-	
-	
+	public  static void TestLogin() {
+    	String url="http://192.168.253.167:8080/platform-manage/public/account";
+		Map<String, String> param =new HashMap<String, String>();
+	    param.put("user", "13798490565");
+	    param.put("password", "123456");
+		try {
+			Response response=HttpUtil.sendGetRequest(url, param, true);
+			System.out.println("login 状态码：" + response.getStatusCode());
+			System.out.println("login 正文：" + response.getResponseText());
+		} catch (Exception e) {
+			System.out.println("超时");
+			System.out.println(e.getMessage());
+		}
 	}
-
-	
-	
-	
-	
-	
-	private static void loginERP(){
-		String urlLocal ="192.168.253.167:8080";//超时的本地连接
-		String url="http://218.17.158.219:9090/platform-manage/public/account";
+    
+	public  static void TestLoginERP(){
 	    String url_erp="http://218.17.158.219:8090/ERP/mobile/login.action";
 		Map<String, String> param =new HashMap<String, String>();
 	    param.put("username", "YINGP");
 	    param.put("password", "123456");
 	    param.put("master", "UAS");
 		try {
-			System.out.println(url);
-			//Response response = HttpUtil.sendGetRequest(url_erp, param, true);
-			 Response response=HttpUtil.sendPostRequest(url_erp, param, true);
-			//List<LoginEntity> logMsg=FlexJsonUtil.fromJsonArray(response.getResponseText(),LoginEntity.class);
-			//System.out.println(logMsg.get(0).getPlatform());
+			System.out.println(url_erp);
+			Response response=HttpUtil.sendPostRequest(url_erp, param, true);
 			System.out.println("" + response.getStatusCode());
 			System.out.println("" + response.getResponseText());
 		} catch (Exception e) {
 			System.out.println("超时");
 			System.out.println(e.getMessage());
 		}
-	}
-	
+    }
+    
+	public  static void TestLoginB2B(){
+		//post
+    	String url="http://218.17.158.219:9090/platform-b2b/j_spring_security_check";
+		Map<String, String> param =new HashMap<String, String>();
+	    param.put("j_username", "13798490565");
+	    param.put("j_password", "123456");
+		try {
+			Response response=HttpUtil.sendPostRequest(url, param, true);
+			System.out.println("" + response.getStatusCode());
+			System.out.println("" + response.getResponseText());
+		} catch (Exception e) {
+			System.out.println("超时");
+			System.out.println(e.getMessage());
+		}
+    }
+    
 	//添加请求头
-//	小结：
-//	1、同名Header可以有多个 ，Header[] getHeaders(String name)。
-//	2、运行时使用的是第一个， Header getFirstHeader(String name)。
-//	3、addHeader，如果同名header已存在，则追加至原同名header后面。
-//	4、setHeader，如果同名header已存在，则覆盖一个同名header。
-	private static void testHttpHead() {
+	//	小结：
+	//	1、同名Header可以有多个 ，Header[] getHeaders(String name)。
+	//	2、运行时使用的是第一个， Header getFirstHeader(String name)。
+	//	3、addHeader，如果同名header已存在，则追加至原同名header后面。
+	//	4、setHeader，如果同名header已存在，则覆盖一个同名header。
+	public  static void testHttpHead() {
 		 HttpGet httpGet = new HttpGet("");  
 	        httpGet.addHeader("Cookie", "aa"); 
 	        httpGet.addHeader("Cookie","liujie");
