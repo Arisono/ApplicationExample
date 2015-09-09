@@ -1,0 +1,28 @@
+apply plugin: 'java'
+apply plugin: 'eclipse' 
+apply plugin: 'application' 
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+// Redefine where Gradle should expect Java source files (*.java)
+sourceSets {
+    main {
+        java {
+            srcDirs 'src'
+        }
+    }
+}
+ 
+dependencies {
+	//单文件依赖
+	compile files('libs/flexjson-2.1.jar')
+	//某个文件夹下面全部依赖
+	compile fileTree(dir: 'libs', include: '*.jar')
+}
+// Redefine where .class files are written
+sourceSets.main.output.classesDir = file("classes")
+ 
+// Specify main class to be executed
+mainClassName = "com.test.java.util.StaticUtil"
+ 
+defaultTasks 'compileJava', 'run'

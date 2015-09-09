@@ -9,11 +9,8 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.apache.commons.lang3.SystemUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.json.JSONObject;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
 import com.tencent.xinge.ClickAction;
 import com.tencent.xinge.Message;
 import com.tencent.xinge.Style;
@@ -31,10 +28,10 @@ public class XingeMain {
 			public void run() {
 				System.out.println(getSysCurrtentTime()+"推送i="+i++);
 				TestAppPush("你有一条采购单",getSysCurrtentTime());
-				//TestIOSAppPush();
+				TestIOSAppPush();
 			}
 		};
-		timer.schedule(task, 1000,20000);
+		timer.schedule(task, 1000,30000);
 		
 	}
     
@@ -47,7 +44,7 @@ public class XingeMain {
 				"HUASL_SZ", 
 				"13798490565", 
 				 title, 
-				"测试单据      时间:"+time,
+				"您收到到推送消息吗？     时间:"+time,
 				"10041106", 
 				"jsps/mobile/task.jsp?caller=ResourceAssignment!Bill%26id=484060",
 				"我的任务");
@@ -80,7 +77,7 @@ public class XingeMain {
       System.out.println(object.toString());
 	}
 
-	private static void TestIOSAppPush() {
+	public static void TestIOSAppPush() {
 		JSONObject object=	XingePusher.pushSingleAccountIOS(
 				"HUASL_SZ", 
 				"13798490565", 

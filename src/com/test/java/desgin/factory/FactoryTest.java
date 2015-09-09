@@ -24,7 +24,9 @@ public class FactoryTest {
 		SendFactory factory = new SendFactory();
 		// 接口设计
 		// 普通工厂
+		@SuppressWarnings("unused")
 		Sender sender1 = factory.produce("sms");
+		@SuppressWarnings("unused")
 		Sender sender2 = factory.produce("mail");
 		// sender1.Send();
 		// sender2.Send();
