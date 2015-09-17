@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.client.methods.HttpGet;
 
@@ -21,7 +22,6 @@ import com.test.android.entity.ExtraWork.items;
 import com.test.android.entity.ExtraWorkItems;
 import com.test.android.entity.LeaveEntity;
 import com.test.android.entity.LoginEntity;
-import com.test.java.base.FlexJsonUtil;
 import com.test.java.util.HttpUtil.Response;
 
 /**
@@ -30,26 +30,202 @@ import com.test.java.util.HttpUtil.Response;
  */
 public class StaticUtil {
 	public static void main(String[] args) {
-		//TestJsonInterToString();
-		TestLogin();
+	  String token=WeixinGetToken();
+	  if (!StringUtils.isEmpty(token)) {
+		WeixinSendUser(token);
+	  }
+		
+	}
+	
+	
+	public static void WeixinSendUser(String token){
+		String url="https://api.weixin.qq.com/cgi-bin/user/info";
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("access_token", token);
+		param.put("touser","o8lZ9uK0iLRfyLqYe79VBRv7FxgU");
+		param.put("msgtype","text");
+		param.put("content", "你好");
+		try {
+			Response response = HttpUtil.sendHttpsPostRequest(url, param, false);
+			System.out.println(response.getResponseText());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+    /**
+	 * @author LiuJie
+	 * @功能:user info
+	 */
+	public static void WeixinGetUseInfo(String token){
+		String url="https://api.weixin.qq.com/cgi-bin/user/info";
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("access_token", token);
+		param.put("lang", "zh_CN");
+		param.put("openid", "o8lZ9uK0iLRfyLqYe79VBRv7FxgU");
+		try {
+			Response response = HttpUtil.sendHttpsPostRequest(url, param, false);
+			System.out.println(response.getResponseText());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * @author LiuJie
+	 * @功能:user list
+	 */
+	public static void WeixinGetUser(String token){
+		String url="https://api.weixin.qq.com/cgi-bin/user/info/batchget";
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("access_token", token);
+		try {
+			Response response = HttpUtil.sendHttpsPostRequest(url, param, false);
+			System.out.println(response.getResponseText());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void TestSendServer(){
+		String url="http://192.168.253.101/chapter-03/coreServlet";
+		try {
+			Response response = HttpUtil.sendPostRequest(url, null, false);
+			System.out.println(response.getResponseText());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * @author LiuJie
+	 * @功能:获取token
+	 */
+	public static String WeixinGetToken(){
+		String url="https://api.weixin.qq.com/cgi-bin/token";
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("grant_type", "client_credential");
+		param.put("appid", "wxbc1f8607137d3b8a");
+		param.put("secret", "f34867da7b8b70f92e6e4789d7016b26");
+		try {
+			Response response = HttpUtil.sendGetRequest(url, param, false);
+		    Map<String, String> rMap=FlexJsonUtil.fromJson(response.getResponseText());
+		    System.out.println("token:"+rMap.get("access_token").toString());
+		    return  rMap.get("access_token").toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * @author LiuJie
+	 * @功能:设置行业模块
+	 */
+	public static void WeixinSetIndustry(String token){
+		String url="https://api.weixin.qq.com/cgi-bin/template/api_set_industry";
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("access_token", token);
+		param.put("name", "{\"group\":{\"name\":\"usoftchina\"}}");
+		try {
+			Response response = HttpUtil.sendHttpsPostRequest(url, param, false);
+			System.out.println(response.getResponseText());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * @author LiuJie
+	 * @功能:微信添加分组
+	 */
+	public static void WeixinAddGroup(String token){
+		String url="https://api.weixin.qq.com/cgi-bin/groups/create"
+			;
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("access_token", token);
+		param.put("name", "{\"group\":{\"name\":\"usoftchina\"}}");
+		try {
+			String response = HttpUtil.post(url, param);
+			System.out.println(response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void WeixinDeteGroup(String token){
+		String url="https://api.weixin.qq.com/cgi-bin/groups/delete";
+			//	+ "?access_token="+token;
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("access_token", token);
+        param.put("group", "{\"group\":{\"id\":101}}");
+		try {
+			Response response = HttpUtil.sendPostRequest(url, param, false);
+			System.out.println(response.getResponseText());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void WeixinGetGroup(String token){
+		String url="https://api.weixin.qq.com/cgi-bin/groups/get"
+				+ "?access_token="+token;
+		Map<String, String> param = new HashMap<String, String>();
+		//param.put("access_token", token);
+		try {
+			Response response = HttpUtil.sendHttpsPostRequest(url, param, false);
+			System.out.println(response.getResponseText());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	/**
+	 * @author LiuJie
+	 * @功能:自定义菜单
+	 */
+	public static void WeixinAddMenu(String token){
+		String url="https://api.weixin.qq.com/cgi-bin/menu/create";
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("access_token", token);
+		param.put("body", "{\"button\":[{\"type\":\"click\",\"name\":\"今日电影\",\"key\":\"V1001_TODAY_MUSIC\"},{\"name\":\"菜单\",\"sub_button\":[{\"type\":\"view\",\"name\":\"搜索\",\"url\":\"\"},{\"type\":\"view\",\"name\":\"视频\",\"url\":\"\"},{\"type\":\"click\",\"name\":\"赞一下我们\",\"key\":\"V1001_GOOD\"}]}]}");
+		try {
+			Response response = HttpUtil.sendHttpsPostRequest(url, param, false);
+			System.out.println(response.getResponseText());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * @author LiuJie
+	 * @功能:获取自定义菜单
+	 */
+	public static void WeixinGetMenu(String token){
+		String url="https://api.weixin.qq.com/cgi-bin/get_current_selfmenu_info";
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("access_token", token);
+		try {
+			Response response = HttpUtil.sendPostRequest(url, param, false);
+			System.out.println(response.getResponseText());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@SuppressWarnings("null")
 	public static void TestException() {
-         try {
-			Integer i=null;
+		try {
+			Integer i = null;
 			System.out.println(i.toString());
 			System.out.println(i);
-		   } catch (Exception e) {
-			    Writer writer = new StringWriter();
-			    PrintWriter pw = new PrintWriter(writer);
-			    e.printStackTrace(pw);
-			    pw.close();
-			    String error= writer.toString();
-			    System.out.println(error);
-//			  System.out.println(e.getClass());
-//			  System.out.println(getStackMsgDetail(e,true));
-		   }
+		} catch (Exception e) {
+			Writer writer = new StringWriter();
+			PrintWriter pw = new PrintWriter(writer);
+			e.printStackTrace(pw);
+			pw.close();
+			String error = writer.toString();
+			System.out.println(error);
+		}
 	}
 
 	public static String getStackMsg(Throwable e) {
@@ -61,32 +237,32 @@ public class StaticUtil {
 		}
 		return sb.toString();
 	}
-	
-	public static String getStackMsgDetail(Throwable e,boolean isfilter) {
+
+	public static String getStackMsgDetail(Throwable e, boolean isfilter) {
 		StringBuffer sb = new StringBuffer();
-		/*Throwable [] ecause =e.getSuppressed();
-		for (int i = 0; i < ecause.length; i++) {
-			System.out.println("cause:"+ecause[i].getMessage());
-		}*/
+		/*
+		 * Throwable [] ecause =e.getSuppressed(); for (int i = 0; i <
+		 * ecause.length; i++) {
+		 * System.out.println("cause:"+ecause[i].getMessage()); }
+		 */
 		StackTraceElement[] stackArray = e.getStackTrace();
-		sb.append("--------------------异常共  "+stackArray.length+" 条----------------------------------\n");
-		for (int i =stackArray.length-1; i>=0; i--) {
+		sb.append("--------------------异常共  " + stackArray.length
+				+ " 条----------------------------------\n");
+		for (int i = stackArray.length - 1; i >= 0; i--) {
 			StackTraceElement element = stackArray[i];
 			if (isfilter) {
-				if (element.getLineNumber()==-1) continue;
+				if (element.getLineNumber() == -1)
+					continue;
 			}
 			sb.append("-------------------------------------------------------\n");
-			sb.append("classname:   "+element.getClassName() + "\n");
-			sb.append("   method:   "+element.getMethodName()+ "()\n");
-			sb.append("     line:   "+element.getLineNumber() + "\n");
+			sb.append("classname:   " + element.getClassName() + "\n");
+			sb.append("   method:   " + element.getMethodName() + "()\n");
+			sb.append("     line:   " + element.getLineNumber() + "\n");
 			sb.append("--------------------------------------------------------\n");
 		}
 		return sb.toString();
 	}
-	
-	
-	
-	
+
 	/**
 	 * @author LiuJie
 	 * @功能:支持浮点数正整数的正则表达式
@@ -112,19 +288,20 @@ public class StaticUtil {
 			System.err.println(string);
 		}
 	}
-	
+
 	/**
 	 * @author LiuJie
-	 * @功能:integer to string string to integer  fail
+	 * @功能:integer to string string to integer fail
 	 */
 	public static void TestJsonInterToString() {
-		String jsonString="[{\"RN\":1,\"wod_woid\":2286,\"wod_id\":15246,\"wod_detno\":1,\"wod_empname\":\"CS029\",\"wod_type\":\"双休日加班\",\"wod_startdate\":\"2015-09-14 00:00:00\",\"wod_enddate\":\"2015-09-17 00:00:00\",\"wod_isallday\":\"0\",\"wod_count\":3}]";
-		List<ExtraWorkItems> items=FlexJsonUtil.fromJsonArray(jsonString, ExtraWorkItems.class);
-		System.out.println(""+items.get(0));
+		String jsonString = "[{\"RN\":1,\"wod_woid\":2286,\"wod_id\":15246,\"wod_detno\":1,\"wod_empname\":\"CS029\",\"wod_type\":\"双休日加班\",\"wod_startdate\":\"2015-09-14 00:00:00\",\"wod_enddate\":\"2015-09-17 00:00:00\",\"wod_isallday\":\"0\",\"wod_count\":3}]";
+		List<ExtraWorkItems> items = FlexJsonUtil.fromJsonArray(jsonString,
+				ExtraWorkItems.class);
+		System.out.println("" + items.get(0));
 	}
-	
+
 	public static void TestHttpGetData() {
-		String url="http://218.17.158.219:8090/ERP/mobile/common/getCombo.action";
+		String url = "http://218.17.158.219:8090/ERP/mobile/common/getCombo.action";
 		Map<String, String> param = new HashMap<String, String>();
 		param.put("caller", "Ask4Leave");
 		param.put("field", "va_vacationtype");
@@ -154,11 +331,11 @@ public class StaticUtil {
 	}
 
 	public static void TestLoginERP() {
-		String url_erp = "http://218.17.158.219:8090/ERP/mobile/login.action";
+		String url_erp = "http://dukemon.saas.ubtob.com/mobile/login.action";
 		Map<String, String> param = new HashMap<String, String>();
-		param.put("username", "YINGP");
+		param.put("username", "ADMIN");
 		param.put("password", "123456");
-		param.put("master", "UAS");
+		param.put("master", "SAAS_10041166");
 		try {
 			System.out.println(url_erp);
 			Response response = HttpUtil.sendPostRequest(url_erp, param, true);
@@ -341,7 +518,7 @@ public class StaticUtil {
 	}
 
 	public static void TestJsonData() {
-		//ArrayList<String> niArrayList = new ArrayList<String>();
+		// ArrayList<String> niArrayList = new ArrayList<String>();
 		// niArrayList.add("niha");
 		// String liString= FlexJsonUtil.toJsonArray(niArrayList);
 		// List<String> newList= FlexJsonUtil.fromJsonArray(liString,
@@ -422,7 +599,6 @@ public class StaticUtil {
 		System.out.println("天:" + days);
 		System.out.println("时:" + hours);
 		System.out.println("分：" + minutes);
-
 		return Float.parseFloat(String.valueOf(between_days));
 	}
 

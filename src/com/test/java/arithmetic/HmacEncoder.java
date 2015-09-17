@@ -1,4 +1,4 @@
-package com.test.java.SHA256;
+package com.test.java.arithmetic;
 
 import java.security.InvalidKeyException;
 import java.security.Key;

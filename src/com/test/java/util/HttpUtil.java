@@ -5,14 +5,24 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
@@ -24,15 +34,24 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.ssl.SSLContextBuilder;
+import org.apache.http.ssl.TrustStrategy;
+import org.apache.http.util.EntityUtils;
 
-import com.test.java.SHA256.HmacUtils;
+import com.test.java.arithmetic.HmacUtils;
 
 /**
  * @author :LiuJie 2015年9月3日 上午8:48:22
@@ -95,6 +114,71 @@ public class HttpUtil {
 	}
 
 	
+	public static CloseableHttpClient createSSLClientDefault(){
+		try {
+		             javax.net.ssl.SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
+		                 //信任所有
+		                 public boolean isTrusted(X509Certificate[] chain,
+		                                 String authType) throws CertificateException {
+		                     return true;
+		                 }
+		             }).build();
+		             SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext);
+		             return HttpClients.custom().setSSLSocketFactory(sslsf).build();
+		         } catch (KeyManagementException e) {
+		             e.printStackTrace();
+		         } catch (NoSuchAlgorithmException e) {
+		             e.printStackTrace();
+		         } catch (KeyStoreException e) {
+		             e.printStackTrace();
+		         }
+		         return  HttpClients.createDefault();
+		}
+	
+	
+	public static Response sendHttpsPostRequest(String url,
+			Map<String, String> params, boolean sign) throws Exception {
+		CloseableHttpClient httpClient =createSSLClientDefault();
+		CloseableHttpResponse response = null;
+		if (sign) {
+			url += (url.indexOf("?") == -1 ? "?" : "&") + "_timestamp="
+					+Long.valueOf("1441180144");
+			url += "&_signature=" + HmacUtils.encode(url);
+		}
+		System.out.println(url);
+		HttpPost httpPost = new HttpPost(url);
+		try {
+			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+			if (params != null && !params.isEmpty()) {
+				Set<Entry<String, String>> entrys = params.entrySet();
+				for (Map.Entry<String, String> entry : entrys) {
+					nvps.add(new BasicNameValuePair(entry.getKey(), URLEncoder
+							.encode(entry.getValue(), "utf-8")));
+				}
+			}
+			UrlEncodedFormEntity entity=new UrlEncodedFormEntity(nvps);
+			entity.setContentType("application/json");
+			entity.setContentEncoding("UTF-8");   
+			httpPost.setEntity(entity);
+	
+			response = httpClient.execute(httpPost);
+			return Response.getResponse(response);
+		} finally {
+			httpPost.releaseConnection();
+			try {
+				httpClient.close();
+			} catch (IOException e) {
+			}
+			if (response != null) {
+				try {
+					response.close();
+				} catch (IOException e) {
+				}
+			}
+		}
+	}
+	
+	
 	public static Response sendPostRequest(String url,
 			Map<String, String> params, boolean sign) throws Exception {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -112,7 +196,7 @@ public class HttpUtil {
 				Set<Entry<String, String>> entrys = params.entrySet();
 				for (Map.Entry<String, String> entry : entrys) {
 					nvps.add(new BasicNameValuePair(entry.getKey(), URLEncoder
-							.encode(entry.getValue(), "UTF-8")));
+							.encode(entry.getValue(), "utf-8")));
 				}
 			}
 			httpPost.setEntity(new UrlEncodedFormEntity(nvps));
@@ -276,5 +360,86 @@ public class HttpUtil {
 				return new Response(response);
 			return null;
 		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	public static DefaultHttpClient getHttpsClient() {
+		try {
+			SSLContext ctx = SSLContext.getInstance("TLS");
+			X509TrustManager tm = new X509TrustManager() {
+
+				@Override
+				public void checkClientTrusted(
+						java.security.cert.X509Certificate[] chain,
+						String authType)
+						throws java.security.cert.CertificateException {
+				}
+
+				@Override
+				public void checkServerTrusted(
+						java.security.cert.X509Certificate[] chain,
+						String authType)
+						throws java.security.cert.CertificateException {
+				}
+
+				@Override
+				public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+					return null;
+				}
+
+			};
+			DefaultHttpClient client = new DefaultHttpClient();
+			ctx.init(null, new TrustManager[] { tm }, null);
+			SSLSocketFactory ssf = new SSLSocketFactory(ctx);
+
+			ClientConnectionManager ccm = client.getConnectionManager();
+			SchemeRegistry sr = ccm.getSchemeRegistry();
+			// 设置要使用的端口，默认是443
+			sr.register(new Scheme("https", 443, ssf));
+			return client;
+		} catch (Exception ex) {
+			return null;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param url
+	 * @param params
+	 * @return
+	 * @author asflex
+	 * @throws UnsupportedEncodingException
+	 * @date 2014-3-28下午7:24:02
+	 * @modify 2014-3-28下午7:24:02
+	 */
+	@SuppressWarnings({ "unchecked", "deprecation", "rawtypes" })
+	public static String post(String url, Map<String, String> params)
+			throws UnsupportedEncodingException {
+		DefaultHttpClient httpClient = getHttpsClient();
+		HttpPost post = new HttpPost(url);
+		List data = null;
+		if (params != null) {
+			data = new ArrayList(params.size());
+			for (Map.Entry entry : params.entrySet()) {
+				data.add(new BasicNameValuePair((String) entry.getKey(),
+						(String) entry.getValue()));
+			}
+			UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(data,
+					"UTF-8");
+			formEntity.setContentType("application/x-www-form-urlencoded");
+			post.setEntity(formEntity);
+		}
+		HttpResponse response;
+		try {
+			
+			response = httpClient.execute(post);
+			String result = EntityUtils.toString(response.getEntity());
+			return result;
+		} catch (ClientProtocolException e) {
+		} catch (IOException e) {
+		} finally {
+			httpClient.getConnectionManager().shutdown();
+		}
+		return null;
 	}
 }

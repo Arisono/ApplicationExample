@@ -1,4 +1,4 @@
-package com.test.java.SHA256;
+package com.test.java.arithmetic;
 
 public class HmacMD5Encoder extends HmacEncoder {
 

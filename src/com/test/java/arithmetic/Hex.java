@@ -1,4 +1,4 @@
-package com.test.java.SHA256;
+package com.test.java.arithmetic;
 
 public final class Hex {
 	private static final char[] HEX = { '0', '1', '2', '3', '4', '5', '6', '7',
