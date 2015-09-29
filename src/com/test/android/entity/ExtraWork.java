@@ -14,16 +14,13 @@ public class ExtraWork {
 	private String wo_remark;//加班原因
 	private String wo_worktask; 
 	private String wo_statuscode;
-	
+	public int wo_hour;//当天加班时数
 	private String wo_auditstatus;//确认状态
 	
 	private String wo_status;//状态
 	private String wo_recorder;//录入人
 	private String wo_recorddate;//录入时间
 	
-	public ExtraWork() {
-		// TODO Auto-generated constructor stub
-	}
 	public String getWo_emname() {
 		return wo_emname;
 	}
@@ -113,23 +110,6 @@ public class ExtraWork {
 		public String wod_jias1;//起始时间
 		public String wod_enddate;//截止日期
 		public String wod_jiax1;//截止时间
-		
-		public items(int wod_woid, int wod_detno, String wod_empname,
-				String wod_type, String wod_isallday, String wod_count,
-				String wod_startdate, String wod_jias1, String wod_enddate,
-				String wod_jiax1) {
-			super();
-			this.wod_woid = wod_woid;
-			this.wod_detno = wod_detno;
-			this.wod_empname = wod_empname;
-			this.wod_type = wod_type;
-			this.wod_isallday = wod_isallday;
-			this.wod_count = wod_count;
-			this.wod_startdate = wod_startdate;
-			this.wod_jias1 = wod_jias1;
-			this.wod_enddate = wod_enddate;
-			this.wod_jiax1 = wod_jiax1;
-		}
 		public items() {
 			// TODO Auto-generated constructor stub
 		}
@@ -194,6 +174,13 @@ public class ExtraWork {
 			this.wod_jiax1 = wod_jiax1;
 		}
 		
+	}
+
+	public int getWo_hour() {
+		return wo_hour;
+	}
+	public void setWo_hour(int wo_hour) {
+		this.wo_hour = wo_hour;
 	}
 	
 }

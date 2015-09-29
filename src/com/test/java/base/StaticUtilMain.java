@@ -9,7 +9,7 @@ import com.test.java.util.StaticUtil;
 public class StaticUtilMain {
 
 	public static void main(String[] args) {
-		  StaticUtil.TestLogin();
+		  StaticUtil.TestMoneyAccrual(10000d, 1d, 3.1d);
 	}
 	
 }

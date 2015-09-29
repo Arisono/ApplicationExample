@@ -13,5 +13,10 @@
 	<classpathentry kind="lib" path="libs/java-source-1.7.jar"/>
 	<classpathentry kind="lib" path="libs/XingeApp.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="libs/jdom.jar"/>
+	<classpathentry kind="lib" path="libs/fastjson-1.1.37.jar"/>
+	<classpathentry kind="lib" path="libs/activation.jar"/>
+	<classpathentry kind="lib" path="libs/additionnal.jar"/>
+	<classpathentry kind="lib" path="libs/mail.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

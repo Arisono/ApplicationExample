@@ -80,7 +80,7 @@ public class XingeMain {
 	public static void TestIOSAppPush() {
 		JSONObject object=	XingePusher.pushSingleAccountIOS(
 				"HUASL_SZ", 
-				"13798490565", 
+				"13510568818", 
 				"您有一条新的采购单", 
 				"测试单据",
 				"10041106", 
