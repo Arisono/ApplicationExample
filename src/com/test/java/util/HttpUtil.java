@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
@@ -15,6 +16,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -30,6 +32,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CookieStore;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -40,13 +43,16 @@ import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.AbstractHttpClient;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.ssl.TrustStrategy;
 import org.apache.http.util.EntityUtils;
@@ -57,16 +63,17 @@ import com.test.java.arithmetic.HmacUtils;
  * @author :LiuJie 2015年9月3日 上午8:48:22
  * @注释:工具类
  */
+@SuppressWarnings("deprecation")
 public class HttpUtil {
 
-	public static Response sendGetRequest(String url, Map<String, String> params)
+	public static Response sendGetRequest(String url, Map<String, Object> params)
 			throws Exception {
-		return sendGetRequest(url, params, false);
+		return sendGetRequest(url, params, false,null);
 	}
 
 
 	public static Response sendGetRequest(String url,
-			Map<String, String> params, boolean sign) throws Exception {
+			Map<String, Object> params, boolean sign,String cookie) throws Exception {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		CloseableHttpResponse response = null;
 		try {
@@ -76,11 +83,215 @@ public class HttpUtil {
 			else if (!url.endsWith("&"))
 				buf.append("&");
 			if (params != null && !params.isEmpty()) {
-				Set<Entry<String, String>> entrys = params.entrySet();
-				for (Map.Entry<String, String> entry : entrys) {
+				Set<Entry<String, Object>> entrys = params.entrySet();
+				for (Map.Entry<String, Object> entry : entrys) {
 					buf.append(entry.getKey())
 							.append("=")
-							.append(URLEncoder.encode(entry.getValue(), "UTF-8"))
+							.append(URLEncoder.encode(entry.getValue().toString(), "UTF-8"))
+							.append("&");
+				}
+			}
+			if (sign) {
+				buf.append("_timestamp=").append(System.currentTimeMillis());
+				String message = buf.toString();
+				buf.append("&_signature=").append(HmacUtils.encode(message));
+			} else
+				buf.deleteCharAt(buf.length() - 1);
+			System.out.println("请求url:"+buf.toString());
+			HttpGet httpGet = new HttpGet(buf.toString());
+			httpGet.addHeader("Cookie", "JSESSIONID=" +null);
+			httpGet.addHeader("Cookie", "JSESSIONID=" +cookie);
+			response = httpClient.execute(httpGet);
+			return Response.getResponse(response);
+		} finally {
+			try {
+				httpClient.close();
+			} catch (IOException e) {
+			}
+			if (response != null) {
+				try {
+					response.close();
+				} catch (IOException e) {
+				}
+			}
+		}
+	}
+   
+	
+	/**
+	 * @author LiuJie
+	 * @功能:Get 参数,请求头
+	 */
+	public static Response sendGetHeaderRequest(String url,
+			Map<String, Object> params,LinkedHashMap<String, Object> headers, boolean sign) throws Exception {
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+		CloseableHttpResponse response = null;
+		try {
+			StringBuilder buf = new StringBuilder(url);
+			if (url.indexOf("?") == -1)
+				buf.append("?");
+			else if (!url.endsWith("&"))
+				buf.append("&");
+			if (params != null && !params.isEmpty()) {
+				Set<Entry<String, Object>> entrys = params.entrySet();
+				for (Map.Entry<String, Object> entry : entrys) {
+					buf.append(entry.getKey())
+							.append("=")
+							.append(URLEncoder.encode(entry.getValue().toString(), "UTF-8"))
+							.append("&");
+				}
+			}
+			if (sign) {
+				buf.append("_timestamp=").append(System.currentTimeMillis());
+				String message = buf.toString();
+				buf.append("&_signature=").append(HmacUtils.encode(message));
+			} else
+				buf.deleteCharAt(buf.length() - 1);
+			System.out.println("请求url:"+buf.toString());
+			HttpGet httpGet = new HttpGet(buf.toString());
+			if (headers!=null) {
+				for(String key:headers.keySet()){
+					System.out.println("add header:"+key+" value:"+headers.get(key).toString());
+					httpGet.setHeader(key, headers.get(key).toString());
+				}
+			}
+			response = httpClient.execute(httpGet);
+			return Response.getResponse(response);
+		} finally {
+			try {
+				httpClient.close();
+			} catch (IOException e) {
+			}
+			if (response != null) {
+				try {
+					response.close();
+				} catch (IOException e) {
+				}
+			}
+		}
+	}
+	
+	/**
+	 * @author LiuJie
+	 * @功能:post请求  添加请求头参数
+	 */
+	public static Response sendPostHeaderRequest(String url,
+			Map<String, Object> params,LinkedHashMap<String, Object> headers, boolean sign) throws Exception {
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+		CloseableHttpResponse response = null;
+		if (sign) {
+			url += (url.indexOf("?") == -1 ? "?" : "&") + "_timestamp="
+					+Long.valueOf("1441180144");
+			url += "&_signature=" + HmacUtils.encode(url);
+		}
+		System.out.println(url);
+		HttpPost httpPost = new HttpPost(url);
+		try {
+			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+			if (params != null && !params.isEmpty()) {
+				Set<Entry<String, Object>> entrys = params.entrySet();
+				for (Map.Entry<String, Object> entry : entrys) {
+					nvps.add(new BasicNameValuePair(entry.getKey(), URLEncoder
+							.encode(entry.getValue().toString(), "utf-8")));
+				}
+			}
+			httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+			RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(8000).setConnectTimeout(8000).build();//设置请求和传输超时时间
+			httpPost.setConfig(requestConfig);
+			if (headers!=null) {
+				for(String key:headers.keySet()){
+					System.out.println("add header:"+key+" value:"+headers.get(key).toString());
+					httpPost.setHeader(key, headers.get(key).toString());
+				}
+			}
+			response = httpClient.execute(httpPost);
+			
+			return Response.getResponse(response);
+		} finally {
+			httpPost.releaseConnection();
+			try {
+				httpClient.close();
+			} catch (IOException e) {
+			}
+			if (response != null) {
+				try {
+					response.close();
+				} catch (IOException e) {
+				}
+			}
+		}
+	}
+	
+	/**
+	 * @author LiuJie
+	 * @功能: post  json参数
+	 */
+	
+	public static Response sendPostJsonRequest(String url,
+			Map<String, Object> params,LinkedHashMap<String, Object> headers,String bodyString, boolean sign) throws Exception {
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+		CloseableHttpResponse response = null;
+		if (sign) {
+			url += (url.indexOf("?") == -1 ? "?" : "&") + "_timestamp="
+					+Long.valueOf("1441180144");
+			url += "&_signature=" + HmacUtils.encode(url);
+		}
+		System.out.println(url);
+		HttpPost httpPost = new HttpPost(url);
+		try {
+			/*List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+			if (params != null && !params.isEmpty()) {
+				Set<Entry<String, Object>> entrys = params.entrySet();
+				for (Map.Entry<String, Object> entry : entrys) {
+					nvps.add(new BasicNameValuePair(entry.getKey(), URLEncoder
+							.encode(entry.getValue().toString(), "utf-8")));
+				}
+			}
+			httpPost.setEntity(new UrlEncodedFormEntity(nvps));*/
+			RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(8000).setConnectTimeout(8000).build();//设置请求和传输超时时间
+			httpPost.setConfig(requestConfig);
+			if (headers!=null) {
+				for(String key:headers.keySet()){
+					System.out.println("add header:"+key+" value:"+headers.get(key).toString());
+					httpPost.setHeader(key, headers.get(key).toString());
+				}
+			}
+			if (bodyString!=null) {
+				httpPost.setEntity(new StringEntity(bodyString,"UTF-8"));
+			}
+			response = httpClient.execute(httpPost);
+			return Response.getResponse(response);
+		} finally {
+			httpPost.releaseConnection();
+			try {
+				httpClient.close();
+			} catch (IOException e) {
+			}
+			if (response != null) {
+				try {
+					response.close();
+				} catch (IOException e) {
+				}
+			}
+		}
+	}
+	
+	public static Response sendGetRequest(String url,
+			Map<String, Object> params, boolean sign) throws Exception {
+		CloseableHttpClient httpClient = HttpClients.createDefault();
+		CloseableHttpResponse response = null;
+		try {
+			StringBuilder buf = new StringBuilder(url);
+			if (url.indexOf("?") == -1)
+				buf.append("?");
+			else if (!url.endsWith("&"))
+				buf.append("&");
+			if (params != null && !params.isEmpty()) {
+				Set<Entry<String, Object>> entrys = params.entrySet();
+				for (Map.Entry<String, Object> entry : entrys) {
+					buf.append(entry.getKey())
+							.append("=")
+							.append(URLEncoder.encode(entry.getValue().toString(), "UTF-8"))
 							.append("&");
 				}
 			}
@@ -107,9 +318,8 @@ public class HttpUtil {
 			}
 		}
 	}
-
 	public static Response sendPostRequest(String url,
-			Map<String, String> params) throws Exception {
+			Map<String, Object> params) throws Exception {
 		return sendPostRequest(url, params, false);
 	}
 
@@ -137,8 +347,8 @@ public class HttpUtil {
 	
 	
 	public static Response sendHttpsPostRequest(String url,
-			Map<String, String> params, boolean sign) throws Exception {
-		CloseableHttpClient httpClient =createSSLClientDefault();
+			Map<String, Object> params, boolean sign) throws Exception {
+		CloseableHttpClient httpClient =HttpClients.createDefault();
 		CloseableHttpResponse response = null;
 		if (sign) {
 			url += (url.indexOf("?") == -1 ? "?" : "&") + "_timestamp="
@@ -148,19 +358,18 @@ public class HttpUtil {
 		System.out.println(url);
 		HttpPost httpPost = new HttpPost(url);
 		try {
-			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+/*			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
 			if (params != null && !params.isEmpty()) {
-				Set<Entry<String, String>> entrys = params.entrySet();
-				for (Map.Entry<String, String> entry : entrys) {
+				Set<Entry<String, Object>> entrys = params.entrySet();
+				for (Map.Entry<String, Object> entry : entrys) {
 					nvps.add(new BasicNameValuePair(entry.getKey(), URLEncoder
 							.encode(entry.getValue(), "utf-8")));
 				}
 			}
-			UrlEncodedFormEntity entity=new UrlEncodedFormEntity(nvps);
+*/			StringEntity entity = new StringEntity(FlexJsonUtil.toJson(params),"utf-8");
 			entity.setContentType("application/json");
-			entity.setContentEncoding("UTF-8");   
+			entity.setContentEncoding("UTF-8");  
 			httpPost.setEntity(entity);
-	
 			response = httpClient.execute(httpPost);
 			return Response.getResponse(response);
 		} finally {
@@ -180,7 +389,7 @@ public class HttpUtil {
 	
 	
 	public static Response sendPostRequest(String url,
-			Map<String, String> params, boolean sign) throws Exception {
+			Map<String, Object> params, boolean sign) throws Exception {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		CloseableHttpResponse response = null;
 		if (sign) {
@@ -193,14 +402,22 @@ public class HttpUtil {
 		try {
 			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
 			if (params != null && !params.isEmpty()) {
-				Set<Entry<String, String>> entrys = params.entrySet();
-				for (Map.Entry<String, String> entry : entrys) {
+				Set<Entry<String, Object>> entrys = params.entrySet();
+				for (Map.Entry<String, Object> entry : entrys) {
 					nvps.add(new BasicNameValuePair(entry.getKey(), URLEncoder
-							.encode(entry.getValue(), "utf-8")));
+							.encode(entry.getValue().toString(), "utf-8")));
 				}
 			}
 			httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+			RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(8000).setConnectTimeout(8000).build();//设置请求和传输超时时间
+			httpPost.setConfig(requestConfig);
+			httpPost.setHeader("Content-Type",
+					"application/x-www-form-urlencoded; charset=utf-8");
+			httpPost.setHeader("Cookie",
+					"JSESSIONID=" + params.get("sessionId"));
+			//httpPost.setEntity(new StringEntity(FlexJsonUtil.toJson(params)));
 			response = httpClient.execute(httpPost);
+			        
 			return Response.getResponse(response);
 		} finally {
 			httpPost.releaseConnection();
@@ -216,6 +433,48 @@ public class HttpUtil {
 			}
 		}
 	}
+	
+	public static Response sendPostRequestNew(String url,
+			Map<String, Object> params, boolean sign) throws Exception {
+		@SuppressWarnings({ "resource" })
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+		HttpResponse response = null;
+		if (sign) {
+			url += (url.indexOf("?") == -1 ? "?" : "&") + "_timestamp="
+					+Long.valueOf("1441180144");
+			url += "&_signature=" + HmacUtils.encode(url);
+		}
+		System.out.println(url);
+		HttpPost httpPost = new HttpPost(url);
+		try {
+			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+			if (params != null && !params.isEmpty()) {
+				Set<Entry<String, Object>> entrys = params.entrySet();
+				for (Map.Entry<String, Object> entry : entrys) {
+					nvps.add(new BasicNameValuePair(entry.getKey(), URLDecoder
+							.decode(entry.getValue().toString(), "utf-8")));
+				}
+			}
+			httpPost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
+			RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(8000).setConnectTimeout(8000).build();//设置请求和传输超时时间
+			httpPost.setConfig(requestConfig);
+			httpPost.setHeader("Content-Type",
+					"application/x-www-form-urlencoded; charset=utf-8");
+			httpPost.setHeader("Cookie",
+					"JSESSIONID=" + params.get("sessionId"));
+			//httpPost.setEntity(new StringEntity(FlexJsonUtil.toJson(params)));、
+			
+			response = httpClient.execute(httpPost);
+			CookieStore cookieStore = ((AbstractHttpClient) httpClient)
+					.getCookieStore();
+		    Response.cookieStore=cookieStore;
+			System.out.println(cookieStore.toString());
+			return Response.getResponse(response);
+		} finally {
+			httpPost.releaseConnection();
+		}
+	}
+
 
 	public static byte[] read2Byte(InputStream inStream) throws Exception {
 		ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
@@ -266,7 +525,7 @@ public class HttpUtil {
 
 
 	public static Response upload(String postUrl, String filePath,
-			Map<String, String> params) throws IllegalStateException,
+			Map<String, Object> params) throws IllegalStateException,
 			IOException, Exception {
 		CloseableHttpClient httpClient = null;
 		CloseableHttpResponse response = null;
@@ -278,7 +537,7 @@ public class HttpUtil {
 			builder.addPart("file", fileBody);
 			if (params != null) {
 				for (String paramKey : params.keySet()) {
-					StringBody body = new StringBody(params.get(paramKey),
+					StringBody body = new StringBody(params.get(paramKey).toString(),
 							ContentType.create("text/plain", Consts.UTF_8));
 					builder.addPart(paramKey, body);
 				}
@@ -317,7 +576,7 @@ public class HttpUtil {
 	public static class Response {
 		private int statusCode;
 		private String responseText;
-		private CookieStore cookieStore;
+		public  static CookieStore cookieStore;
 
 		public int getStatusCode() {
 			return statusCode;
@@ -341,7 +600,7 @@ public class HttpUtil {
 		}
 
 		public void setCookieStore(CookieStore cookieStore) {
-			this.cookieStore = cookieStore;
+			Response.cookieStore = cookieStore;
 		}
 
 		public Response() {
@@ -349,6 +608,7 @@ public class HttpUtil {
 
 		public Response(HttpResponse response) throws IllegalStateException,
 				IOException, Exception {
+			              
 			this.statusCode = response.getStatusLine().getStatusCode();
 			this.responseText = HttpUtil.read2String(response.getEntity()
 					.getContent());
@@ -362,7 +622,6 @@ public class HttpUtil {
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	public static DefaultHttpClient getHttpsClient() {
 		try {
 			SSLContext ctx = SSLContext.getInstance("TLS");
@@ -412,8 +671,8 @@ public class HttpUtil {
 	 * @date 2014-3-28下午7:24:02
 	 * @modify 2014-3-28下午7:24:02
 	 */
-	@SuppressWarnings({ "unchecked", "deprecation", "rawtypes" })
-	public static String post(String url, Map<String, String> params)
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static String post(String url, Map<String, Object> params)
 			throws UnsupportedEncodingException {
 		DefaultHttpClient httpClient = getHttpsClient();
 		HttpPost post = new HttpPost(url);
@@ -441,5 +700,55 @@ public class HttpUtil {
 			httpClient.getConnectionManager().shutdown();
 		}
 		return null;
+	}
+	
+	
+	
+	public static String sendPostRequestold(String url, Map<String, String> params)
+			throws IOException {
+		String result = null;
+		HttpResponse response = null;
+		@SuppressWarnings({ "resource" })
+		DefaultHttpClient httpclient = new DefaultHttpClient();
+		boolean sign = true;
+		if (sign) {
+			url += (url.indexOf("?") == -1 ? "?" : "&") + "_timestamp="
+					+ System.currentTimeMillis();
+			url += "&_signature=" + HmacUtils.encode(url);
+		}
+		HttpPost httpPost = new HttpPost(url);
+		try {
+			List<NameValuePair> nvps = new ArrayList<NameValuePair>();
+			if (params != null && !params.isEmpty()) {
+				Set<Entry<String, String>> entrys = params.entrySet();
+				for (Map.Entry<String, String> entry : entrys) {
+					nvps.add(new BasicNameValuePair(entry.getKey(), URLDecoder
+							.decode(entry.getValue(), "UTF-8")));
+				}
+			}
+			httpPost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
+			httpPost.setHeader("Content-Type",
+					"application/x-www-form-urlencoded; charset=utf-8");
+			httpPost.setHeader("Cookie",
+					"JSESSIONID=" + params.get("sessionId"));
+			response = httpclient.execute(httpPost);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        System.out.println("status:"+response.getStatusLine().getStatusCode());
+        String text = EntityUtils.toString(response.getEntity());
+        System.out.println("text:"+text);
+		if (response.getStatusLine().getStatusCode() == 200
+				|| response.getStatusLine().getStatusCode() == 207) {
+//			String temp = EntityUtils.toString(response.getEntity());
+//			  if (temp.length() > 0) {
+//			      result = temp.trim().toString();
+//			  }else{
+//				result="207";
+//			  }
+		} else {
+			
+		}
+		return result;
 	}
 }

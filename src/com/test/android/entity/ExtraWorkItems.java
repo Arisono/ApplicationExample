@@ -1,16 +1,21 @@
 package com.test.android.entity;
 
 public class ExtraWorkItems {
+	
+	public int wod_id;
 	public int wod_woid;//关联ID
 	public int wod_detno;//序号
 	public String wod_empname;//申请人
 	public String wod_type;//加班类型
-	public String wod_isallday;//是否全天
-	//public String wod_count;//当天加班时数
 	public String wod_startdate;//起始日期
 	public String wod_jias1;//起始时间
 	public String wod_enddate;//截止日期
 	public String wod_jiax1;//截止时间
+	public String wod_empcode;//申请人编号
+	public String wod_isallday;
+	public String wod_count;
+
+	
 	public int getWod_woid() {
 		return wod_woid;
 	}
@@ -35,18 +40,6 @@ public class ExtraWorkItems {
 	public void setWod_type(String wod_type) {
 		this.wod_type = wod_type;
 	}
-	public String getWod_isallday() {
-		return wod_isallday;
-	}
-	public void setWod_isallday(String wod_isallday) {
-		this.wod_isallday = wod_isallday;
-	}
-//	public String getWod_count() {
-//		return wod_count;
-//	}
-//	public void setWod_count(String wod_count) {
-//		this.wod_count = wod_count;
-//	}
 	public String getWod_startdate() {
 		return wod_startdate;
 	}
@@ -71,4 +64,30 @@ public class ExtraWorkItems {
 	public void setWod_jiax1(String wod_jiax1) {
 		this.wod_jiax1 = wod_jiax1;
 	}
+	
+	public String getWod_empcode() {
+		return wod_empcode;
+	}
+	public void setWod_empcode(String wod_empcode) {
+		this.wod_empcode = wod_empcode;
+	}
+	public int getWod_id() {
+		return wod_id;
+	}
+	public void setWod_id(int wod_id) {
+		this.wod_id = wod_id;
+	}
+	public String getWod_isallday() {
+		return wod_isallday;
+	}
+	public void setWod_isallday(String wod_isallday) {
+		this.wod_isallday = wod_isallday;
+	}
+	public String getWod_count() {
+		return wod_count;
+	}
+	public void setWod_count(String wod_count) {
+		this.wod_count = wod_count;
+	}
+	
 }
