@@ -417,11 +417,6 @@ public class HttpUtil {
 					"JSESSIONID=" + params.get("sessionId"));
 			//httpPost.setEntity(new StringEntity(FlexJsonUtil.toJson(params)));
 			response = httpClient.execute(httpPost);
-<<<<<<< HEAD
-			
-=======
-			        
->>>>>>> branch 'master' of https://github.com/Arisono/ApplicationExample.git
 			return Response.getResponse(response);
 		} finally {
 			httpPost.releaseConnection();

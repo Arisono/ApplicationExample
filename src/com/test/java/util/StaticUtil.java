@@ -20,10 +20,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> branch 'master' of https://github.com/Arisono/ApplicationExample.git
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.client.methods.HttpGet;
@@ -36,10 +32,7 @@ import com.test.android.entity.ExtraWorkItems;
 import com.test.android.entity.Group;
 import com.test.android.entity.LeaveEntity;
 import com.test.android.entity.LoginEntity;
-<<<<<<< HEAD
-=======
 import com.test.android.entity.NewsChannel;
->>>>>>> branch 'master' of https://github.com/Arisono/ApplicationExample.git
 import com.test.android.entity.Weather;
 import com.test.java.util.HttpUtil.Response;
 
@@ -62,262 +55,6 @@ public class StaticUtil {
 		excuteTest();
 	}
 	public static void excuteTest(){
-<<<<<<< HEAD
-		getVideo();
-		//getMusicInfo();
-		//getGallery();
-		//getWxhot_huceo();
-	    // getCityWether();
-	}
-	
-	/**
-	 * @author LiuJie
-	 * @功能:获取视频接口
-	 *      body json 参数的传递
-	 */
-	public static void getVideo(){
-		String url=Constans.API_VIDEO;
-		LinkedHashMap<String, Object> headers=new LinkedHashMap<>();
-		headers.put("apikey", "da8115408ed5b6a3c28034276f7ae577");
-		String body="{\"query\":\"虎妈猫爸的最新剧集\",\"resource\":\"video_haiou\"}";
-		commomHttpMethod(url, null, headers, body, "post");
-	}
-	
-	/**
-	 * @author LiuJie
-	 * @功能:获取音乐文件接口
-	 */
-	public static void getMusicInfo(){
-		String url=Constans.API_MUSIC;
-		LinkedHashMap<String, Object> headers=new LinkedHashMap<>();
-		headers.put("apikey", "da8115408ed5b6a3c28034276f7ae577");
-	    Map<String, Object> param=new HashMap<String,Object>();
-	    param.put("s", "蔡依林");
-	    param.put("limit", 100);
-	    param.put("p", 1);
-	    commomHttpMethod(url, param, headers, null,"get");
-	}
-	
-	/**
-	 * @author LiuJie
-	 * @功能:天狗图片  天狗接口中心
-	 */
-	public static void getGallery(){
-		String url=Constans.API_TIANGOU_GALLERY;
-	    LinkedHashMap<String, Object> headers=new LinkedHashMap<>();
-		headers.put("apikey", "da8115408ed5b6a3c28034276f7ae577");
-	    Map<String, Object> param=new HashMap<String,Object>();
-	    param.put("id", 0);
-	    param.put("rows", 10);
-	    param.put("classify", 1);
-	    commomHttpMethod(url, param, headers,null, "get");
-	}
-	
-
-	
-	
-	/**
-	 * @param url
-	 * @param param
-	 * @param headers 
-	 * @param post  请求方式
-	 */
-	public static void commomHttpMethod(String url,
-			Map<String, Object> param,
-			LinkedHashMap<String , Object> headers,String bodyJson,
-			String post){
-		try {
-			if ("get".equals(post)) {
-				Response response=HttpUtil.sendGetHeaderRequest(url, param, headers, false);
-			    System.out.println("status:"+response.getStatusCode());
-			    System.out.println("body:"+response.getResponseText());
-			}
-			if ("post".equals(post)) {
-				Response response=HttpUtil.sendPostJsonRequest(url, param, headers, bodyJson, false);
-			    System.out.println("status:"+response.getStatusCode());
-			    System.out.println("body:"+response.getResponseText());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-	}
-	/**
-	 * @author LiuJie
-	 * @功能:获取微信精选文章
-	 */
-	public static void getWxhot_huceo() {
-     String url=Constans.API_WXHOT_HUCEO;
-     LinkedHashMap<String, Object> headers=new LinkedHashMap<>();
-     headers.put("key", "209c5fb3f2ba9349bdb779e1d982b412");
-     Map<String, Object> param=new HashMap<String,Object>();
-     param.put("num", 10);
-     param.put("rand", 1);
-     param.put("word", "中国");
-     param.put("page", 1);
-     param.put("key", "209c5fb3f2ba9349bdb779e1d982b412");
-     try {
-			Response response=HttpUtil.sendGetHeaderRequest(url, param,null, false);
-		    System.out.println(response.getResponseText());
-        } catch (Exception e) {
-			e.printStackTrace();
-		}
-        
-	}
-	
-	/**
-	 * @author LiuJie
-	 * @功能:获取微信精选文章
-	 */
-	public static void getWxhot_baidu() {
-     String url=Constans.API_WXHOT;
-     LinkedHashMap<String, Object> headers=new LinkedHashMap<>();
-     headers.put("apikey", "da8115408ed5b6a3c28034276f7ae577");
-     Map<String, Object> param=new HashMap<String,Object>();
-     param.put("num", 10);
-     param.put("rand", 1);
-     param.put("word", "中国");
-     param.put("page", 1);
-     try {
-			Response response=HttpUtil.sendGetHeaderRequest(url, param, headers, false);
-		    System.out.println(response.getResponseText());
-        } catch (Exception e) {
-			e.printStackTrace();
-		}
-        
-	}
-	
-	/**
-	 * @author LiuJie
-	 * @功能:获取身份证信息
-	 */
-	public static void getIdService() {
-      String url=Constans.API_IDSERVICE+"36220219910812301X";
-      LinkedHashMap<String, Object> headers=new LinkedHashMap<>();
-      headers.put("apikey", "da8115408ed5b6a3c28034276f7ae577");
-      try {
-		 Response response=HttpUtil.sendGetHeaderRequest(url, null, headers, false);
-		 System.out.println("body:"+response.getResponseText());
-         JSONObject object=JSON.parseObject(response.getResponseText());
-         System.out.println("retMsg:"+object.getString("retMsg"));
-         System.out.println("errNum:"+object.getIntValue("errNum"));
-         JSONObject retData=object.getJSONObject("retData");
-         System.out.println("address:"+retData.getString("address"));
-      } catch (Exception e) {
-		e.printStackTrace();
-	}
-	}
-	
-	/**
-	 * @author LiuJie
-	 * @功能:天气接口
-	 */
-	public static void getCityWether() {
-       String url="http://apis.baidu.com/heweather/weather/free";
-       LinkedHashMap<String, Object> headers=new LinkedHashMap<>();
-       headers.put("apikey", "da8115408ed5b6a3c28034276f7ae577");
-       Map<String , Object> params=new HashMap<String, Object>();
-       params.put("city", "深圳");
-       try {
-		Response response=HttpUtil.sendGetHeaderRequest(url, params, headers, false);
-	    System.out.println("状态码："+response.getStatusCode());
-	    System.out.println("正文："+response.getResponseText());
-	    JSONObject object=JSON.parseObject(response.getResponseText());
-	    JSONArray array=  (JSONArray) object.get("HeWeather data service 3.0");
-	    JSONObject jsObject=  (JSONObject) array.get(0);
-	    Weather weather=JSON.parseObject(JSON.toJSONString(jsObject),Weather.class);
-	    System.out.println("--------------------------------------------");
-	    System.out.println("城市："+weather.getBasic().getCity());
-	    System.out.println("今日天气状况："+weather.getNow().getCond().getTxt());
-	    System.out.println("今日温度："+weather.getNow().getTmp());
-	    System.out.println("当地时间："+weather.getBasic().getUpdate().getLoc());
-        
-	    System.out.println("明天白天天气："+weather.getDaily_forecasts().get(1).getCond().getTxt_d());
-	    System.out.println("明天晚上天气："+weather.getDaily_forecasts().get(1).getCond().getTxt_n());
-	    System.out.println("明天时间："+weather.getDaily_forecasts().get(1).date);
-	    
-	    System.out.println("后天白天天气："+weather.getDaily_forecasts().get(2).getCond().getTxt_d());
-	    System.out.println("后天晚上天气："+weather.getDaily_forecasts().get(2).getCond().getTxt_n());
-	    System.out.println("后天时间："+weather.getDaily_forecasts().get(2).date);
-	    System.out.println("--------------------------------------------");
-       } catch (Exception e) {
-	 	e.printStackTrace();
-	    }
-	}
-	/**
-	 * @author LiuJie
-	 * @功能:测试天气接口JavaBean
-	 */
-	public static void TestWeatherJavaBean(){
-	/*	DailyForecast dForecast=new DailyForecast();
-		dForecast.setDate("2015-12-12");
-		dForecast.setHum("HUM");
-		dForecast.setPop("Pop");
-		astro item=new DailyForecast().new astro();
-		cond cond=new DailyForecast().new cond();
-		tmp tmp=new DailyForecast().new tmp();
-		WindOne wind =new DailyForecast().new WindOne();
-		
-		item.setSr("898989");
-		item.setSs("88888");
-		cond.setCode_d("1111");
-		cond.setCode_n("22211");
-		cond.setTxt_d("nixin");
-		cond.setTxt_n("55555");
-		tmp.setMax("1222");
-		tmp.setMin("10");
-		wind.setDeg("7777");
-		wind.setDir("898989");
-		wind.setSc("1090902");
-		wind.setSpd("776834");
-		
-		dForecast.setAstro(item);
-		dForecast.setCond(cond);
-		dForecast.setDate("2015-10-12");
-		dForecast.setTmp(tmp);
-		dForecast.setWind(wind);
-		
-		Weather weather=new Weather();
-		weather.getDaily_forecasts().add(dForecast);
-		weather.setStatus("ok");
-		
-		String json=JSON.toJSONString(weather);
-		System.out.println(json);*/
-		Weather weather2=JSON.parseObject(
-				"{\"daily_forecasts\":[{\"astro\":{\"sr\":\"898989\",\"ss\":\"88888\"}}]}"
-				,Weather.class);
-		System.out.println(weather2.getDaily_forecasts().size());
-		System.out.println(weather2.getDaily_forecasts());
-	}
-
-    /**
-	 * @author LiuJie
-	 * @功能:经过时间证明,Json解析不支持Java内部类
-	 */
-	public static void TestFastjsonJavaBean() {
-			/*User user=new User();
-			user.setId(1);
-		    user.setName("liujie");
-		    User user2=new User();
-		    user2.setId(2);
-		    user2.setName("wangxiang");
-		    Stu stu=   new User().new Stu();
-		    stu.setId(12);
-		    stu.setName("xueshen");
-		    user.setStu(stu);
-		    
-		    Group group=new Group();
-		    group.setId(9);
-		    group.getUsers_json().add(user);
-		    group.getUsers_json().add(user2);
-		    
-		    String json=JSON.toJSONString(group);
-		    System.out.println("group:"+json);*/
-		    Group group2=JSON.parseObject("{\"id\":9,\"users_json\":[{\"id\":1,\"name\":\"liujie\",\"stu\":{\"id\":12,\"name\":\"xueshen\"},\"etu\":{\"id\":12,\"name\":\"mamali\"}},{\"id\":2,\"name\":\"wangxiang\",\"stu\":{\"id\":12,\"name\":\"jiji\"},\"etu\":{\"id\":12,\"name\":\"mamali\"}}]}", Group.class);
-		    System.out.println(group2.getUsers_json().get(1).getStu().getName());
-		    System.out.println(group2.getUsers_json().get(1).getEtu().getName());
-		    System.out.println(group2.getUsers_json().size());
-=======
 		//TestFastjsonJavaBean();
 		TestLogin("13430818775", "1");
 		//TestLoginERP();
@@ -327,33 +64,10 @@ public class StaticUtil {
 		//getGallery();
 		//getWxhot_huceo();
 		//getCityWether();
->>>>>>> branch 'master' of https://github.com/Arisono/ApplicationExample.git
 	}
 	
 	
-	
-<<<<<<< HEAD
-	
-	/**
-	 * @author LiuJie
-	 * @功能:计算日利息
-	 */
-	public static Double TestMoneyAccrual(Double total,Double days,Double rate){
-           Double accrual=total*(rate/365/100)*days;
-           System.out.println("日利率："+rate/365/100);
-           System.out.println("利息："+accrual);
-           DecimalFormat df =new DecimalFormat("#,##0.##;(#)");  
-           System.out.println(df.format(total+accrual));  
-           return accrual;
-	}
-	/**
-	 * @return
-	 */
-	public static boolean isCheckDateTime(String start, String end,
-			String format) {
-		Date startDate = null;
-		Date endDate = null;
-=======
+
 	/**@注释：新闻  */
 	public static void getNews(){
 		String url=Constans.API_NEWS;
@@ -425,10 +139,7 @@ public class StaticUtil {
 			Map<String, Object> param,
 			LinkedHashMap<String , Object> headers,String bodyJson,
 			String post){
->>>>>>> branch 'master' of https://github.com/Arisono/ApplicationExample.git
 		try {
-<<<<<<< HEAD
-=======
 			if ("get".equals(post)) {
 				Response response=HttpUtil.sendGetHeaderRequest(url, param, headers, false);
 			    System.out.println("status:"+response.getStatusCode());
@@ -444,6 +155,7 @@ public class StaticUtil {
 		}
 		
 	}
+
 	/**
 	 * @author LiuJie
 	 * @功能:获取微信精选文章
@@ -591,7 +303,6 @@ public class StaticUtil {
 		Date startDate = null;
 		Date endDate = null;
 		try {
->>>>>>> branch 'master' of https://github.com/Arisono/ApplicationExample.git
 			startDate = new SimpleDateFormat(format).parse(start);
 			endDate = new SimpleDateFormat(format).parse(end);
 		} catch (ParseException e) {
@@ -1015,19 +726,11 @@ public class StaticUtil {
 	}
 
 	public static String TestLoginERP() {
-<<<<<<< HEAD
-		String url_erp = "http://192.168.253.199:8099/ERP/mobile/login.action";
-		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("username", "13418872805");
-		param.put("password", "111111");
-		param.put("master", "YITOA");
-=======
 		String url_erp = "http://218.17.158.219:8090/ERP/mobile/login.action";
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("username", "13671962436");
 		param.put("password", "111111");
 		param.put("master", "UAS");
->>>>>>> branch 'master' of https://github.com/Arisono/ApplicationExample.git
 		try {
 			System.out.println(url_erp);
 			Response response = HttpUtil.sendPostRequest(url_erp, param, true);
