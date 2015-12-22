@@ -52,11 +52,13 @@ public class StaticUtil {
 	public static String token = null;
 
 	public static void main(String[] args) {
-		excuteTest();
+	HttpUtil.download(
+			"http://218.17.158.219:8090/postattach/U0323/10d5116e6d5b43c297ab1f4b7de83e44.amr"
+				,"C:/Users/Administrator/Desktop/30.amr");
 	}
 	public static void excuteTest(){
 		//TestFastjsonJavaBean();
-		TestLogin("13430818775", "1");
+		//TestLogin("13430818775", "1");
 		//TestLoginERP();
 		//getNews();
 		//getVideo();

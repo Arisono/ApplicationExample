@@ -1,12 +1,18 @@
 package com.test.java.util;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -15,7 +21,9 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -750,4 +758,65 @@ public class HttpUtil {
 		}
 		return result;
 	}
+	
+	
+	/**
+	  * @author Administrator
+	  * @功能:HttpUrlConnection download
+	  */
+	public static void download(String httpurl,String path){
+		System.out.println("start:"+new SimpleDateFormat("MM-dd:HH:mm:ss:SS").format(new Date()));
+		try {
+			URL url = new URL(httpurl);
+			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+			connection.setRequestMethod("POST");
+			connection.setRequestProperty("Charset","UTF-8");
+			connection.setReadTimeout(10*1000);
+			connection.setConnectTimeout(10*1000);
+			connection.connect();
+			int file_leng = connection.getContentLength();
+			System.out.println("file length---->"+file_leng);
+			//BufferedInputStream bin = new BufferedInputStream(connection.getInputStream());
+			InputStream  bin=connection.getInputStream();
+			File file = new File(path);
+			if(!file.getParentFile().exists()){
+			file.getParentFile().mkdirs();
+			}
+			OutputStream out=new FileOutputStream(file);
+			int size=0;
+			int len=0;
+			byte[] buf = new byte[1024];
+			while((size=bin.read(buf))!=-1){
+				len+=size;
+				out.write(buf,0,size);
+				/* android 中为了更新进度条
+				Message msg = handler.obtainMessage();
+				msg.arg1=len*100/file_leng;
+				handler.sendMessage(msg);
+				*/
+				//Thread.sleep(1000);
+				System.out.println("下载了： "+len*100/file_leng+"%\n");
+				}
+			bin.close();
+			out.close();
+			System.out.println("end:"+new SimpleDateFormat("MM-dd:HH:mm:ss:SS").format(new Date()));
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (ProtocolException e) {
+			e.printStackTrace();
+		} catch(SocketException e){
+			e.printStackTrace();
+		}
+		catch(SocketTimeoutException e){
+			System.out.println("下载超时");
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e){
+			e.printStackTrace();
+		} 
+	}
+	
+	
+	
 }

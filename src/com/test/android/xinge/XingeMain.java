@@ -42,7 +42,7 @@ public class XingeMain {
 	private static void TestAppPush(String title,String time) {
 		JSONObject object=	XingePusher.pushSingleAccountAndroid(
 				"HUASL_SZ", 
-				"13798490565", 
+				"15814742959", 
 				 title, 
 				"您收到到推送消息吗？     时间:"+time,
 				"10041106", 
