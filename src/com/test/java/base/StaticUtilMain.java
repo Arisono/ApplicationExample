@@ -1,6 +1,6 @@
 package com.test.java.base;
 
-import com.test.java.util.StaticUtil;
+import com.app.news.test.main.StaticUtil;
 
 /**
  * @author :LiuJie 2015年8月25日 下午2:40:14

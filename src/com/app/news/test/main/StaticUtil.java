@@ -1,4 +1,4 @@
-package com.test.java.util;
+package com.app.news.test.main;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -34,6 +34,9 @@ import com.test.android.entity.LeaveEntity;
 import com.test.android.entity.LoginEntity;
 import com.test.android.entity.NewsChannel;
 import com.test.android.entity.Weather;
+import com.test.java.util.Constans;
+import com.test.java.util.FlexJsonUtil;
+import com.test.java.util.HttpUtil;
 import com.test.java.util.HttpUtil.Response;
 
 import org.jdom.Document;
@@ -52,11 +55,14 @@ public class StaticUtil {
 	public static String token = null;
 
 	public static void main(String[] args) {
-	HttpUtil.download(
-			"http://218.17.158.219:8090/postattach/U0323/10d5116e6d5b43c297ab1f4b7de83e44.amr"
-				,"C:/Users/Administrator/Desktop/30.amr");
+	TestLogin("13751095276", "1");
+	TestLoginERP("13751095276","1","USOFTSYS");
+	TestLoginB2B("13751095276","1");
 	}
 	public static void excuteTest(){
+		/*HttpUtil.download(
+		"http://218.17.158.219:8090/postattach/U0323/10d5116e6d5b43c297ab1f4b7de83e44.amr"
+		,"C:/Users/Administrator/Desktop/30.amr");*/
 		//TestFastjsonJavaBean();
 		//TestLogin("13430818775", "1");
 		//TestLoginERP();
@@ -727,12 +733,12 @@ public class StaticUtil {
 		}
 	}
 
-	public static String TestLoginERP() {
-		String url_erp = "http://218.17.158.219:8090/ERP/mobile/login.action";
+	public static String TestLoginERP(String phone,String password,String master) {
+		String url_erp = "http://218.17.158.219:8099/ERP/mobile/login.action";
 		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("username", "13671962436");
-		param.put("password", "111111");
-		param.put("master", "UAS");
+		param.put("username", phone);
+		param.put("password", password);
+		param.put("master", master);
 		try {
 			System.out.println(url_erp);
 			Response response = HttpUtil.sendPostRequest(url_erp, param, true);
@@ -769,16 +775,15 @@ public class StaticUtil {
 	}
 
 	
-	public static String TestLoginB2B() {
-		// post
+	public static String TestLoginB2B(String phone,String password) {
 		String url = "http://www.ubtob.com/j_spring_security_check";
 		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("j_username", "200020710");
-		param.put("j_password", "111111");
+		param.put("j_username",phone);
+		param.put("j_password", password);
 		try {
 			Response response = HttpUtil.sendPostRequestNew(url, param, true);
-			System.out.println("" + response.getStatusCode());
-			System.out.println("" + response.getResponseText());
+			System.out.println("status:" + response.getStatusCode());
+			System.out.println("text:" + response.getResponseText());
 			org.apache.http.client.CookieStore cookieStore=Response.cookieStore;
 			for (int i = 0; i < cookieStore.getCookies().size(); i++) {
 				if ("www.ubtob.com".equals(cookieStore.getCookies().get(i)

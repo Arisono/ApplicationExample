@@ -85,7 +85,7 @@ public class XingePusher {
 		message.setCustom(map);
 		TimeInterval acceptTime1 = new TimeInterval(0,0,23,59);
 		message.addAcceptTime(acceptTime1);
-		JSONObject obj = xinge.pushSingleAccount(0, account, message, XingeApp.IOSENV_DEV);
+		JSONObject obj = xinge.pushSingleAccount(0, account, message, XingeApp.IOSENV_PROD);
 		return obj;
 	}
 	

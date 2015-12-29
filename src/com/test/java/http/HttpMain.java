@@ -3,7 +3,7 @@ package com.test.java.http;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.test.java.util.StaticUtil;
+import com.app.news.test.main.StaticUtil;
 
 /**
  * @author :LiuJie 2015年10月13日 上午11:52:13

@@ -1,6 +1,6 @@
 package com.test.java.base;
 
-import com.test.java.util.StaticUtil;
+import com.app.news.test.main.StaticUtil;
 
 public class JsonMain {
 	public static void main(String[] args) {

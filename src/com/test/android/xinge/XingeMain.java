@@ -28,10 +28,10 @@ public class XingeMain {
 			public void run() {
 				System.out.println(getSysCurrtentTime()+"推送i="+i++);
 				TestAppPush("你有一条采购单",getSysCurrtentTime());
-				TestIOSAppPush();
+				TestIOSAppPush("13510568818");
 			}
 		};
-		timer.schedule(task, 1000,30000);
+		timer.schedule(task, 1000,9000);
 		
 	}
     
@@ -77,10 +77,10 @@ public class XingeMain {
       System.out.println(object.toString());
 	}
 
-	public static void TestIOSAppPush() {
+	public static void TestIOSAppPush(String phone) {
 		JSONObject object=	XingePusher.pushSingleAccountIOS(
 				"HUASL_SZ", 
-				"13510568818", 
+				phone, 
 				"您有一条新的采购单", 
 				"测试单据",
 				"10041106", 
