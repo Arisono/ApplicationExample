@@ -26,11 +26,11 @@ import org.apache.http.client.methods.HttpGet;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.app.news.test.entity.NewsChannel;
 import com.test.android.entity.ExtraWork.items;
 import com.test.android.entity.ExtraWorkItems;
 import com.test.android.entity.LeaveEntity;
 import com.test.android.entity.LoginEntity;
-import com.test.android.entity.NewsChannel;
 import com.test.android.entity.Weather;
 import com.test.java.util.Constans;
 import com.test.java.util.FlexJsonUtil;
@@ -49,14 +49,14 @@ import org.xml.sax.InputSource;
  */
 public class StaticUtil {
 
-	public static String token = null;
+	
 	public static void main(String[] args) {
-		TestLogin("13751095276", "1");
-		TestLoginERP("13751095276", "1", "USOFTSYS");
-		TestLoginB2B("13751095276", "1");
+		TestLogin("13266699268", "1");
+		//TestLoginERP("13510568818", "111111", "USOFTSYS");
+		//TestLoginB2B("13671962436", "111111");
 	}
 
-
+	public static String token = null;
 	/** @注释：新闻 */
 	public static void getNews() {
 		String url = Constans.API_NEWS;
@@ -113,29 +113,27 @@ public class StaticUtil {
 	}
 
 	/**
-	 * @param url
-	 * @param param
-	 * @param headers
-	 * @param post
-	 *            请求方式
-	 */
-	public static void commomHttpMethod(String url, Map<String, Object> param, LinkedHashMap<String, Object> headers,
+	  * @author Administrator
+	  * @功能:公用方法
+	  */
+	public static Response commomHttpMethod(String url, Map<String, Object> param, LinkedHashMap<String, Object> headers,
 			String bodyJson, String post) {
+		Response response=null;
 		try {
 			if ("get".equals(post)) {
-				Response response = HttpUtil.sendGetHeaderRequest(url, param, headers, false);
-				System.out.println("status:" + response.getStatusCode());
-				System.out.println("body:" + response.getResponseText());
+				 response = HttpUtil.sendGetHeaderRequest(url, param, headers, false);
+//				System.out.println("status:" + response.getStatusCode());
+//				System.out.println("body:" + response.getResponseText());
 			}
 			if ("post".equals(post)) {
-				Response response = HttpUtil.sendPostJsonRequest(url, param, headers, bodyJson, false);
-				System.out.println("status:" + response.getStatusCode());
-				System.out.println("body:" + response.getResponseText());
+				 response = HttpUtil.sendPostJsonRequest(url, param, headers, bodyJson, false);
+//				System.out.println("status:" + response.getStatusCode());
+//				System.out.println("body:" + response.getResponseText());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		return response;
 	}
 
 	/**
@@ -678,6 +676,7 @@ public class StaticUtil {
 		param.put("user", phone);
 		param.put("password", password);
 		try {
+			//管理平台经过加密的
 			Response response = HttpUtil.sendGetRequest(url, param, true);
 			System.out.println("login 状态码：" + response.getStatusCode());
 			System.out.println("login 正文：" + response.getResponseText());

@@ -1,4 +1,4 @@
-package com.test.android.entity;
+package com.app.news.test.entity;
 
 import java.util.List;
 

@@ -27,11 +27,11 @@ public class XingeMain {
 			@Override
 			public void run() {
 				System.out.println(getSysCurrtentTime()+"推送i="+i++);
-				TestAppPush("你有一条采购单",getSysCurrtentTime());
-				TestIOSAppPush("13510568818");
+				TestAppPush("13600403575","陈璐，你有一条采购单",getSysCurrtentTime());
+				TestIOSAppPush("13600403575");
 			}
 		};
-		timer.schedule(task, 1000,9000);
+		timer.schedule(task, 1000,1000);
 		
 	}
     
@@ -39,10 +39,10 @@ public class XingeMain {
 		return new SimpleDateFormat("yyyy:MM:dd HH:mm:ss").format(new Date(System.currentTimeMillis()));
 	}
 	
-	private static void TestAppPush(String title,String time) {
+	private static void TestAppPush(String phone,String title,String time) {
 		JSONObject object=	XingePusher.pushSingleAccountAndroid(
 				"HUASL_SZ", 
-				"15814742959", 
+				 phone, 
 				 title, 
 				"您收到到推送消息吗？     时间:"+time,
 				"10041106", 
