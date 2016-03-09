@@ -19,9 +19,9 @@ public class LeaveEntity {
 	//va_mankind;
 	private String va_statuscode;//状态码
 	private String va_status;//状态
-	private int va_alldays;//请假天数
+	private float va_alldays;//请假天数
 	private String va_date;//录入时间
-	private int va_alltimes;//请假时数
+	private Object va_alltimes;//请假时数
 	private String va_recordor;//录入人
 	private String va_startime;//开始时间
 	private String va_remark;//请假原因
@@ -45,10 +45,10 @@ public class LeaveEntity {
 	public void setVa_emcode(String va_emcode) {
 		this.va_emcode = va_emcode;
 	}
-	public int getVa_alldays() {
+	public float getVa_alldays() {
 		return va_alldays;
 	}
-	public void setVa_alldays(int va_alldays) {
+	public void setVa_alldays(Float va_alldays) {
 		this.va_alldays = va_alldays;
 	}
 	public String getVa_date() {
@@ -57,10 +57,10 @@ public class LeaveEntity {
 	public void setVa_date(String va_date) {
 		this.va_date = va_date;
 	}
-	public int getVa_alltimes() {
+	public Object getVa_alltimes() {
 		return va_alltimes;
 	}
-	public void setVa_alltimes(int va_alltimes) {
+	public void setVa_alltimes(Object va_alltimes) {
 		this.va_alltimes = va_alltimes;
 	}
 	public String getVa_recordor() {

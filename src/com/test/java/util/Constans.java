@@ -4,10 +4,12 @@ package com.test.java.util;
  * @author :LiuJie 2015年11月3日 下午5:33:02
  * @注释:全局接口
  */
-public interface Constans {
+public class Constans {
 	
 	 /**@注释：erp 根路径  */
-	 public static String ERP_BASIC="http://218.17.158.219:8090/ERP/";
+	 public static String ERP_BASIC="http://218.17.158.219:8099/ERP/";
+	 
+	 
      //public static String ERP_BASIC="http://218.18.115.198:8081/ERP/";
 	 public static String ERP_BASIC_YINTANG="http://218.18.115.198:8888/ERP/";
 	 /**@注释：erp测试 根路径  */
@@ -15,7 +17,7 @@ public interface Constans {
 	
 	
 	 /**@注释：erp 新闻列表  */
-	 public static String ERP_NEWS=ERP_BASIC_YINTANG+"common/datalist/data.action";
+	 public static String ERP_NEWS=ERP_BASIC+"common/datalist/data.action";
 	 /**@注释：erp 新闻列表详细  */
 	 public static String ERP_NEWS_DETAIL=ERP_BASIC+"/oa/news/getNews.action";
 	 /**@注释：通知详细  */

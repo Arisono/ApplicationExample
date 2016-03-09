@@ -1,4 +1,4 @@
-package com.app.uas.test.main;
+package com.test.java.base;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,10 +26,11 @@ public class JsonHttpMain {
     private static String sessionId;
     
 	public static void main(String[] args) {
-		getERPNoticesList(getCookieLogin("13352991628",
+		//Constans.ERP_BASIC="http://xjxmy.saas.ubtob.com/";
+		sessionId=	getCookieLogin("13352991628",
 				 "az00213381",
-				 "YITOA"));
-	  // getAllHrorgEmps(Constans.ERP_BASIC_YINTANG,sessionId);
+				 "SAAS_10041495");
+	   getAllHrorgEmps(Constans.ERP_GETALLHRORGEMPS,"SAAS_10041495","",sessionId);
 	}
 
 	public static void TestLogin(String phone, String password) {

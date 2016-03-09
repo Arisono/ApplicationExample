@@ -1,4 +1,4 @@
-package com.app.sqlite.main;
+package com.test.java.base;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,7 +10,6 @@ import java.util.List;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.app.uas.test.main.JsonHttpMain;
 import com.test.android.entity.EmployeesEntity;
 import com.test.android.entity.HrorgsEntity;
 import com.test.java.util.Constans;
@@ -30,14 +29,14 @@ public class SQLiteMain {
 			 String date="2016-01-22 15:45:01";
 			 String date1="";
 			 Response respon= JsonHttpMain.getAllHrorgEmps(
-					 Constans.ERP_GETALLHRORGEMPS,"UAS",
+					 Constans.ERP_GETALLHRORGEMPS,"USOFTSYS",
 					 date1,
 					 JsonHttpMain.getCookieLogin(
-							 "13510568818",
-							 "111111",
-							 "UAS"));
+							 "13352991628",
+							 "az00213381",
+							 "USOFTSYS"));
 			 JSONObject object= JSON.parseObject(respon.getResponseText());
-			//InserData(conn, object);
+			InserData(conn, object);
 			 
 //			 ResultSet rs = stat.executeQuery("select * from employees;");
 //			  while (rs.next()) {

@@ -1,4 +1,4 @@
-package com.questions.one;
+package com.test.java.base;
 
 public class QuestionsMain {
 

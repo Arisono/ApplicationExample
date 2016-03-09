@@ -9,7 +9,7 @@ import com.app.news.test.main.StaticUtil;
 public class StaticUtilMain {
 
 	public static void main(String[] args) {
-		  StaticUtil.TestMoneyAccrual(10000d, 1d, 3.1d);
+		  StaticUtil.TestMoneyAccrual(70000d, 1d, 4.5d);
 	}
 	
 }
