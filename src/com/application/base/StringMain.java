@@ -14,9 +14,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.application.entity.ExtraWork; 
-import com.application.entity.ExtraWorkItems;
-import com.application.util.FlexJsonUtil;
 
 public class StringMain {
 
@@ -177,4 +174,5 @@ public class StringMain {
 	    System.out.println(array.getString(1));
 	}
 	
+
 }
