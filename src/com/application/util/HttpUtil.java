@@ -34,6 +34,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import org.apache.http.Consts;
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -64,6 +65,7 @@ import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.ssl.TrustStrategy;
 import org.apache.http.util.EntityUtils;
 
+import com.alibaba.fastjson.JSON;
 import com.application.java.arithmetic.HmacUtils;
 
 /**
@@ -212,7 +214,7 @@ public class HttpUtil {
 				}
 			}
 			response = httpClient.execute(httpPost);
-			
+			System.out.println(response.getHeaders("location")[0].getValue());
 			return Response.getResponse(response);
 		} finally {
 			httpPost.releaseConnection();
@@ -582,6 +584,9 @@ public class HttpUtil {
 	public static class Response {
 		private int statusCode;
 		private String responseText;
+		private Header[] headers;
+		private HttpResponse httpResponse;
+		
 		public  static CookieStore cookieStore;
 
 		public int getStatusCode() {
@@ -608,16 +613,33 @@ public class HttpUtil {
 		public void setCookieStore(CookieStore cookieStore) {
 			Response.cookieStore = cookieStore;
 		}
+		
+		public HttpResponse getHttpResponse() {
+			return httpResponse;
+		}
+
+		public void setHttpResponse(HttpResponse httpResponse) {
+			this.httpResponse = httpResponse;
+		}
+
+		public Header[] getHeaders() {
+			return headers;
+		}
+
+		public void setHeaders(Header[] headers) {
+			this.headers = headers;
+		}
 
 		public Response() {
 		}
 
 		public Response(HttpResponse response) throws IllegalStateException,
 				IOException, Exception {
-			              
 			this.statusCode = response.getStatusLine().getStatusCode();
 			this.responseText = HttpUtil.read2String(response.getEntity()
 					.getContent());
+			this.headers=response.getHeaders("location");
+			this.httpResponse=response;
 		}
 
 		public static Response getResponse(HttpResponse response)

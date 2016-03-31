@@ -44,21 +44,20 @@ public class AndroidPushMsgToSingleDevice {
 			notification.put("pkg_content", "com.sk.weichat.ui.erp.activity.WebViewLoadActivity");
 			//notification.put("url", "http://push.baidu.com");
 			JSONObject jsonCustormCont = new JSONObject();
-//			jsonCustormCont.put("title", "待处理流程001"); //鑷畾涔夊唴瀹癸紝key-value
-//			jsonCustormCont.put("url", "jsps/mobile/process.jsp?nodeId=15290089"); //鑷畾涔夊唴瀹癸紝key-value
-//			jsonCustormCont.put("master", "UAS");
-//			jsonCustormCont.put("uu", "10041166");
-//			jsonCustormCont.put("masterId", "2929");
-//			
 			jsonCustormCont.put("title", "待处理流程001"); //鑷畾涔夊唴瀹癸紝key-value
-			jsonCustormCont.put("url", "jsps/mobile/process.jsp?nodeId=15340079"); //鑷畾涔夊唴瀹癸紝key-value
+			jsonCustormCont.put("url", "jsps/mobile/process.jsp?nodeId=15290089"); //鑷畾涔夊唴瀹癸紝key-value
 			jsonCustormCont.put("master", "UAS");
 			jsonCustormCont.put("uu", "10041166");
 			jsonCustormCont.put("masterId", "2929");
+//			jsonCustormCont.put("title", "待处理流程001"); //鑷畾涔夊唴瀹癸紝key-value
+//			jsonCustormCont.put("url", "jsps/mobile/process.jsp?nodeId=15340079"); //鑷畾涔夊唴瀹癸紝key-value
+//			jsonCustormCont.put("master", "UAS");
+//			jsonCustormCont.put("uu", "10041166");
+//			jsonCustormCont.put("masterId", "2929");
 			notification.put("custom_content", jsonCustormCont);
 			
 			PushMsgToSingleDeviceRequest request = new PushMsgToSingleDeviceRequest()
-					.addChannelId("3537149100550334139")//  3955136970545093253
+					.addChannelId("3955136970545093253")//  3955136970545093253
 					.addMsgExpires(new Integer(1)). // message鏈夋晥鏃堕棿
 					addMessageType(1).// 1锛氶�氱煡,0:閫忎紶娑堟伅. 榛樿涓�0 娉細IOS鍙湁閫氱煡.
 					addMessage(notification.toString()).
