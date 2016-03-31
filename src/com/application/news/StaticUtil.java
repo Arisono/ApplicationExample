@@ -36,6 +36,7 @@ import com.application.util.Constans;
 import com.application.util.FlexJsonUtil;
 import com.application.util.HttpUtil;
 import com.application.util.HttpUtil.Response;
+import com.sun.xml.internal.ws.api.ha.StickyFeature;
 
 import org.jdom.Document;
 import org.jdom.Element;
@@ -125,13 +126,13 @@ public class StaticUtil {
 		try {
 			if ("get".equals(post)) {
 				 response = HttpUtil.sendGetHeaderRequest(url, param, headers, false);
-//				System.out.println("status:" + response.getStatusCode());
-//				System.out.println("body:" + response.getResponseText());
 			}
 			if ("post".equals(post)) {
-				 response = HttpUtil.sendPostJsonRequest(url, param, headers, bodyJson, false);
-//				System.out.println("status:" + response.getStatusCode());
-//				System.out.println("body:" + response.getResponseText());
+				 if (StringUtils.isEmpty(bodyJson)) {
+					 response = HttpUtil.sendPostHeaderRequest(url, param, headers, false);
+				}else{
+					response = HttpUtil.sendPostJsonRequest(url, param, headers, bodyJson, false);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
