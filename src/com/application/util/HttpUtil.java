@@ -65,8 +65,8 @@ import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.ssl.TrustStrategy;
 import org.apache.http.util.EntityUtils;
 
-import com.alibaba.fastjson.JSON;
-import com.application.java.arithmetic.HmacUtils;
+import com.application.arithmetic.hmac.HmacUtils;
+import com.application.json.FlexJsonUtil;
 
 /**
  * @author :LiuJie 2015年9月3日 上午8:48:22
