@@ -2,8 +2,6 @@ package com.application.mail;
 
 import javax.mail.MessagingException;
 
-import com.application.util.EmailUtil;
-
 public class EmailMain {
 
 	public static void main(String[] args) {
