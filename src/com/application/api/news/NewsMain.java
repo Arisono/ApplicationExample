@@ -1,4 +1,4 @@
-package com.application.news;
+package com.application.api.news;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
