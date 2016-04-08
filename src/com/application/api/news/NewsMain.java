@@ -19,7 +19,7 @@ public class NewsMain {
 	private static LinkedHashMap<String, Object> headers = new LinkedHashMap<>();
 	private static String url = Constans.API_NEWS;
 
-	public static void getNewsList() {
+	public static void getNewsList(int page,String channelName) {
 		cleardata();
 		url = Constans.API_NEWS;
 		String datetime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
@@ -27,9 +27,10 @@ public class NewsMain {
 		param.put("showapi_appid", "12041");
 		param.put("showapi_sign", "67f7892db890407f95cdf39f870b1234");
 		param.put("showapi_timestamp", datetime);
+		param.put("page", page);
 
 		// param.put("channelId", value);
-		param.put("channelName", "国内最新");
+		param.put("channelName", channelName);
 		loadNewsList(url, param, headers, null, "get");
 	}
 
