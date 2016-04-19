@@ -7,7 +7,7 @@ public class RootEntity<T>{
 	
     private int showapi_res_code;
     private String showapi_res_error;
-    private T showapi_res_body;
+    private PageBeanBody<T> showapi_res_body;
 
     public int getShowapi_res_code() {
         return showapi_res_code;
@@ -25,12 +25,11 @@ public class RootEntity<T>{
         this.showapi_res_error = showapi_res_error;
     }
 
-	public T getShowapi_res_body() {
+	public PageBeanBody<T> getShowapi_res_body() {
 		return showapi_res_body;
 	}
 
-	public void setShowapi_res_body(T showapi_res_body) {
+	public void setShowapi_res_body(PageBeanBody<T> showapi_res_body) {
 		this.showapi_res_body = showapi_res_body;
 	}
-
 }

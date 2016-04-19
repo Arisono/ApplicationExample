@@ -7,7 +7,8 @@ import java.util.List;
  * 分页类
  */
 public class PageBean<T> {
-    private int allNum;
+	
+    private int allNum; 
     private int allPages;
     private int currentPage;
     private int maxResult;

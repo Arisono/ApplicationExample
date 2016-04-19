@@ -36,8 +36,9 @@ public class SQLiteMain {
 							 "13352991628",
 							 "az00213381",
 							 "USOFTSYS"));
+			 System.out.println(respon.getResponseText());
 			 JSONObject object= JSON.parseObject(respon.getResponseText());
-			InserData(conn, object);
+			 InserData(conn, object);
 			 
 //			 ResultSet rs = stat.executeQuery("select * from employees;");
 //			  while (rs.next()) {

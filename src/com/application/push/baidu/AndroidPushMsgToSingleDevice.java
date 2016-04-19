@@ -49,6 +49,7 @@ public class AndroidPushMsgToSingleDevice {
 			jsonCustormCont.put("master", "UAS");
 			jsonCustormCont.put("uu", "10041166");
 			jsonCustormCont.put("masterId", "2929");
+			//jsonCustormCont.put("platform", "ERP");
 //			jsonCustormCont.put("title", "待处理流程001"); //鑷畾涔夊唴瀹癸紝key-value
 //			jsonCustormCont.put("url", "jsps/mobile/process.jsp?nodeId=15340079"); //鑷畾涔夊唴瀹癸紝key-value
 //			jsonCustormCont.put("master", "UAS");
