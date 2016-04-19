@@ -59,29 +59,25 @@ public class NewsMain<T> {
 			String bodyJson, String post) {
 		Response response = StaticUtil.commomHttpMethod(url, param, headers, bodyJson, post);
 //		System.out.println(response.getStatusCode());
-//		System.out.println(response.getResponseText());
+		System.out.println(response.getResponseText());
 //		parseNewsList(response);
 	RootEntity<PageBeanBody<NewEntity>> data=	parseNewsList(response, NewEntity.class);
 	System.out.println(data.getShowapi_res_body().getPagebean().getContentlist().get(0).getChannelName());
 	}
 
-	public static <T> RootEntity<PageBeanBody<NewEntity>> parseNewsList(Response response,Class<T> mClazz) {
+	public static <T> RootEntity<PageBeanBody<T>> parseNewsList(Response response,Class<T> mClazz) {
 		//JSONObject root= JSON.parseObject(response.getResponseText());
 		//NewsListEntity newsList = JSON.parseObject(response.getResponseText(), NewsListEntity.class);
 		//System.out.println("新闻数据："+newsList.getShowapi_res_body().getPagebean().getContentlist().size());
 		//List<Contentlist> clist = newsList.getShowapi_res_body().getPagebean().getContentlist();
 		//System.out.println(clist.get(0).getDesc());
-		RootEntity<PageBeanBody<NewEntity>> rootEntity=new RootEntity<PageBeanBody<NewEntity>>();
-		List<NewEntity> lists=(List<NewEntity>) JSON.parseArray(response.getResponseText(), mClazz);
-		
+		RootEntity<PageBeanBody<T>> rootEntity=new RootEntity<PageBeanBody<T>>();
+	    String json=JSON.parseObject(response.getResponseText()).getJSONObject("showapi_res_body")
+		.getJSONObject("pagebean").getJSONArray("contentlist").toJSONString();
+		List<T> lists=JSON.parseArray(json, mClazz);
 	    rootEntity.getShowapi_res_body().getPagebean().
 	    setContentlist(lists);
-	    
-	    
-	     return rootEntity;
-//		System.out.println("root:"+rootEntity.getShowapi_res_body().getPagebean().getContentlist().get(0).getDesc());
-	
-	
+	    return rootEntity;
 	}
 
 	/**
