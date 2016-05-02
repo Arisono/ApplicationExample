@@ -1,14 +1,13 @@
 package com.application.api.news;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.application.constans.Constans;
 import com.application.entity.NewEntity;
 import com.application.entity.PageBean;
@@ -58,25 +57,40 @@ public class NewsMain<T> {
 	public static void loadNewsList(String url, Map<String, Object> param, LinkedHashMap<String, Object> headers,
 			String bodyJson, String post) {
 		Response response = StaticUtil.commomHttpMethod(url, param, headers, bodyJson, post);
-//		System.out.println(response.getStatusCode());
-		System.out.println(response.getResponseText());
-//		parseNewsList(response);
-	RootEntity<PageBeanBody<NewEntity>> data=	parseNewsList(response, NewEntity.class);
-	System.out.println(data.getShowapi_res_body().getPagebean().getContentlist().get(0).getChannelName());
+        System.out.println(response.getResponseText());
+		RootEntity<NewEntity> data=	parseNewsList(response, NewEntity.class);
+		System.out.println("desc:"+data.getShowapi_res_body().getPagebean().getContentlist().get(0).getImageurls().size());
+		System.out.println("code:"+data.getShowapi_res_code());
+		System.out.println("error:"+data.getShowapi_res_error());
+		System.out.println("allnum:"+data.getShowapi_res_body().getPagebean().getAllNum());
+		System.out.println("allpages:"+data.getShowapi_res_body().getPagebean().getAllPages());
+		System.out.println("currentpages:"+data.getShowapi_res_body().getPagebean().getCurrentPage());
+		System.out.println("maxresult:"+data.getShowapi_res_body().getPagebean().getMaxResult());
+
 	}
 
-	public static <T> RootEntity<PageBeanBody<T>> parseNewsList(Response response,Class<T> mClazz) {
-		//JSONObject root= JSON.parseObject(response.getResponseText());
-		//NewsListEntity newsList = JSON.parseObject(response.getResponseText(), NewsListEntity.class);
-		//System.out.println("新闻数据："+newsList.getShowapi_res_body().getPagebean().getContentlist().size());
-		//List<Contentlist> clist = newsList.getShowapi_res_body().getPagebean().getContentlist();
-		//System.out.println(clist.get(0).getDesc());
-		RootEntity<PageBeanBody<T>> rootEntity=new RootEntity<PageBeanBody<T>>();
-	    String json=JSON.parseObject(response.getResponseText()).getJSONObject("showapi_res_body")
-		.getJSONObject("pagebean").getJSONArray("contentlist").toJSONString();
-		List<T> lists=JSON.parseArray(json, mClazz);
-	    rootEntity.getShowapi_res_body().getPagebean().
-	    setContentlist(lists);
+
+	public static <T> RootEntity<T> parseNewsList(Response response,Class<T> mClazz) {
+		JSONObject root=JSON.parseObject(response.getResponseText());
+		JSONObject body=JSON.parseObject(response.getResponseText()).getJSONObject("showapi_res_body");
+		JSONObject page=JSON.parseObject(response.getResponseText()).getJSONObject("showapi_res_body").getJSONObject("pagebean");
+	    String contentList=JSON.parseObject(response.getResponseText()).getJSONObject("showapi_res_body").getJSONObject("pagebean").getJSONArray("contentlist").toJSONString();
+	    //实例化分页类
+	    PageBean<T> pageBean=new PageBean<T>();
+	    pageBean.setContentlist(JSON.parseArray(contentList, mClazz));//可能报错
+	    pageBean.setAllNum(page.getIntValue("allNum"));
+	    pageBean.setAllPages(page.getIntValue("allPages"));
+	    pageBean.setCurrentPage(page.getIntValue("currentPage"));
+	    pageBean.setMaxResult(page.getIntValue("maxResult"));
+	    //实例化Body类
+	    PageBeanBody<T> pageBeanBody=new PageBeanBody<T>();
+	    pageBeanBody.setPagebean(pageBean);
+	    pageBeanBody.setRet_code(body.getIntValue("ret_code"));
+	    //实例化Root类
+	    RootEntity<T> rootEntity=new RootEntity<T>();
+	    rootEntity.setShowapi_res_body(pageBeanBody);
+	    rootEntity.setShowapi_res_code(root.getIntValue("showapi_res_code"));
+	    rootEntity.setShowapi_res_error(root.getString("showapi_res_error"));
 	    return rootEntity;
 	}
 
