@@ -23,11 +23,11 @@ public class SQLiteMain {
 			 Class.forName("org.sqlite.JDBC");
 			 conn =
 			 DriverManager.getConnection("jdbc:sqlite:C:/Users/Administrator/Documents/UAS");
-			@SuppressWarnings("unused")
-			Statement stat =  conn.createStatement();
+			 @SuppressWarnings("unused")
+			 Statement stat =  conn.createStatement();
 			 conn.setAutoCommit(true);
 			 @SuppressWarnings("unused")
-			String date="2016-01-22 15:45:01";
+			 String date="2016-01-22 15:45:01";
 			 String date1="";
 			 Response respon= ErpHttpMain.getAllHrorgEmps(
 					 Constans.ERP_GETALLHRORGEMPS,"USOFTSYS",
@@ -38,7 +38,7 @@ public class SQLiteMain {
 							 "USOFTSYS"));
 			 System.out.println(respon.getResponseText());
 			 JSONObject object= JSON.parseObject(respon.getResponseText());
-			 InserData(conn, object);
+			 //InserData(conn, object);
 			 
 //			 ResultSet rs = stat.executeQuery("select * from employees;");
 //			  while (rs.next()) {

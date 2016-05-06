@@ -156,7 +156,7 @@ public class HttpUtil {
 				buf.append("&_signature=").append(HmacUtils.encode(message));
 			} else
 				buf.deleteCharAt(buf.length() - 1);
-			System.out.println("请求url:"+buf.toString());
+//			System.out.println("请求url:"+buf.toString());
 			HttpGet httpGet = new HttpGet(buf.toString());
 			if (headers!=null) {
 				for(String key:headers.keySet()){
@@ -164,6 +164,7 @@ public class HttpUtil {
 					httpGet.setHeader(key, headers.get(key).toString());
 				}
 			}
+			Thread.sleep(5000);
 			response = httpClient.execute(httpGet);
 			return Response.getResponse(response);
 		} finally {

@@ -25,7 +25,7 @@ public class NewsMain<T> {
 		getNewsList(1, "国内最新");
 	}
 
-	public static void getNewsList(int page,String channelName) {
+	public static Response getNewsList(int page,String channelName) {
 		cleardata();
 		url = Constans.API_NEWS;
 		String datetime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
@@ -36,7 +36,7 @@ public class NewsMain<T> {
 		param.put("page", page);
 		// param.put("channelId", value);
 		param.put("channelName", channelName);
-		loadNewsList(url, param, headers, null, "get");
+		return loadNewsList(url, param, headers, null, "get");
 	}
 
 	public static void getNewsChannel() {
@@ -54,18 +54,12 @@ public class NewsMain<T> {
 	 * @author Administrator
 	 * @功能:解析新闻列表
 	 */
-	public static void loadNewsList(String url, Map<String, Object> param, LinkedHashMap<String, Object> headers,
+	public static Response loadNewsList(String url, Map<String, Object> param, LinkedHashMap<String, Object> headers,
 			String bodyJson, String post) {
 		Response response = StaticUtil.commomHttpMethod(url, param, headers, bodyJson, post);
-		RootEntity<NewEntity> data=	parseNewsList(response, NewEntity.class);
-		System.out.println("desc:"+data.getShowapi_res_body().getPagebean().getContentlist().get(0).getImageurls().size());
-		System.out.println("code:"+data.getShowapi_res_code());
-		System.out.println("error:"+data.getShowapi_res_error());
-		System.out.println("allnum:"+data.getShowapi_res_body().getPagebean().getAllNum());
-		System.out.println("allpages:"+data.getShowapi_res_body().getPagebean().getAllPages());
-		System.out.println("currentpages:"+data.getShowapi_res_body().getPagebean().getCurrentPage());
-		System.out.println("maxresult:"+data.getShowapi_res_body().getPagebean().getMaxResult());
+        return response;
 	}
+
 
 	public static <T> RootEntity<T> parseNewsList(Response response,Class<T> mClazz) {
 		JSONObject root=JSON.parseObject(response.getResponseText());

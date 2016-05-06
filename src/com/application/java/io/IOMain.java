@@ -1,6 +1,5 @@
 package com.application.java.io;
 
-import java.io.InputStream;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 

@@ -16,8 +16,8 @@ public class AndroidPushMsgToSingleDevice {
 	public static void main(String[] args) throws PushClientException,
 			PushServerException {
 		// 1. get apiKey and secretKey from developer console
-		String apiKey = "iF9q4ruTpFwQ9x8pY6Edqm9G";
-		String secretKey = "6UPRFpWsTXwiPzbvf3jw0iD4aTZEXjsk";
+		String apiKey = "EmEVqG9NiKchcSbkoGkiyG2F2rp8YNmf";
+		String secretKey = "vys9xmWtx2Oerv83usNtU64OEWOpz0Gq";
 		PushKeyPair pair = new PushKeyPair(apiKey, secretKey);
 
 		// 2. build a BaidupushClient object to access released interfaces
