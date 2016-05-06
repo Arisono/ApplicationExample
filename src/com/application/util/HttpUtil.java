@@ -584,6 +584,7 @@ public class HttpUtil {
 	public static class Response {
 		private int statusCode;
 		private String responseText;
+		private InputStream inputStream;
 		private Header[] headers;
 		private HttpResponse httpResponse;
 		
@@ -606,6 +607,14 @@ public class HttpUtil {
 		}
           
 		
+		public InputStream getInputStream() {
+			return inputStream;
+		}
+
+		public void setInputStream(InputStream inputStream) {
+			this.inputStream = inputStream;
+		}
+
 		public CookieStore getCookieStore() {
 			return cookieStore;
 		}
@@ -638,6 +647,8 @@ public class HttpUtil {
 			this.statusCode = response.getStatusLine().getStatusCode();
 			this.responseText = HttpUtil.read2String(response.getEntity()
 					.getContent());
+			this.inputStream=response.getEntity()
+					.getContent();
 			this.headers=response.getHeaders("location");
 			this.httpResponse=response;
 		}

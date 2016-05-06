@@ -58,7 +58,8 @@ public class DateTimeMain {
         long day = 0;  
         long hour = 0;  
         long min = 0;  
-        long sec = 0;  
+        @SuppressWarnings("unused")
+		long sec = 0;  
         try {  
             one = df.parse(str1);  
             two = df.parse(str2);  
