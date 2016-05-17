@@ -65,8 +65,8 @@ import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.ssl.TrustStrategy;
 import org.apache.http.util.EntityUtils;
 
-import com.application.arithmetic.hmac.HmacUtils;
 import com.application.json.FlexJsonUtil;
+import com.application.security.hmac.HmacUtils;
 
 /**
  * @author :LiuJie 2015年9月3日 上午8:48:22

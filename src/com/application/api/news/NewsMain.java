@@ -8,12 +8,11 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.application.api.erp.ErpApiUtil;
 import com.application.constans.Constans;
-import com.application.entity.NewEntity;
 import com.application.entity.PageBean;
 import com.application.entity.PageBeanBody;
 import com.application.entity.RootEntity;
-import com.application.http.httpclient.StaticUtil;
 import com.application.util.HttpUtil.Response;
 
 public class NewsMain<T> {
@@ -56,7 +55,7 @@ public class NewsMain<T> {
 	 */
 	public static Response loadNewsList(String url, Map<String, Object> param, LinkedHashMap<String, Object> headers,
 			String bodyJson, String post) {
-		Response response = StaticUtil.commomHttpMethod(url, param, headers, bodyJson, post);
+		Response response = ErpApiUtil.commomHttpMethod(url, param, headers, bodyJson, post);
         return response;
 	}
 

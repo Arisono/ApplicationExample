@@ -3,8 +3,6 @@ package com.application.api.spring;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.application.base.SpringApiBase;
-
 public class SpringApiMain extends SpringApiBase{
 	public static Map<String, Object> param = new HashMap<String, Object>();
 	public static void main(String[] args) {

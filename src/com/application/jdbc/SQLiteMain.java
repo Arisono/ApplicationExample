@@ -9,10 +9,10 @@ import java.util.List;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.application.api.erp.ErpHttpMain;
 import com.application.constans.Constans;
 import com.application.entity.EmployeesEntity;
 import com.application.entity.HrorgsEntity;
-import com.application.http.httpclient.ErpHttpMain;
 import com.application.util.HttpUtil.Response;
 
 public class SQLiteMain {
@@ -37,7 +37,7 @@ public class SQLiteMain {
 							 "az00213381",
 							 "USOFTSYS"));
 			 System.out.println(respon.getResponseText());
-			 JSONObject object= JSON.parseObject(respon.getResponseText());
+//			 JSONObject object= JSON.parseObject(respon.getResponseText());
 			 //InserData(conn, object);
 			 
 //			 ResultSet rs = stat.executeQuery("select * from employees;");
@@ -52,6 +52,7 @@ public class SQLiteMain {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private static void InserData(Connection conn, JSONObject object) throws SQLException {
 		List<HrorgsEntity> hrorgsEntities= JSON.parseArray(object.getString("hrorgs"),HrorgsEntity.class);
 		List<EmployeesEntity> employeesEntities=JSON.parseArray(object.getString("employees"),EmployeesEntity.class);

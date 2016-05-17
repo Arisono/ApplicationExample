@@ -1,4 +1,4 @@
-package com.application.http.httpclient;
+package com.application.api.erp;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -141,7 +141,7 @@ public class ErpHttpMain {
 	 */
 	public static Response loadNewsList(String url, Map<String, Object> param, LinkedHashMap<String, Object> headers,
 			String bodyJson, String post) {
-		Response response = StaticUtil.commomHttpMethod(url, param, headers, bodyJson, post);
+		Response response = ErpApiUtil.commomHttpMethod(url, param, headers, bodyJson, post);
 		System.out.println("--------------------------------------------------------------");
 		System.out.println(response.getResponseText());
 		System.out.println(response.getStatusCode());

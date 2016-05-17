@@ -1,4 +1,4 @@
-package com.application.arithmetic.hmac;
+package com.application.security.hmac;
 
 public final class Hex {
 	private static final char[] HEX = { '0', '1', '2', '3', '4', '5', '6', '7',

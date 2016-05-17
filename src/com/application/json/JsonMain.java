@@ -1,9 +1,9 @@
 package com.application.json;
 
-import com.application.http.httpclient.StaticUtil;
+import com.application.api.erp.ErpApiUtil;
 
 public class JsonMain {
 	public static void main(String[] args) {
-		StaticUtil.TestEntityItem();
+		ErpApiUtil.TestEntityItem();
 	}
 }

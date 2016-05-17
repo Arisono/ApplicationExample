@@ -1,4 +1,4 @@
-package com.application.http.httpclient;
+package com.application.api.erp;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -46,7 +46,7 @@ import com.application.util.HttpUtil.Response;
  * @author LiuJie
  *
  */
-public class StaticUtil {
+public class ErpApiUtil {
 
 	/** @注释：新闻 */
 	public static void getNews() {
@@ -814,7 +814,7 @@ public class StaticUtil {
 	public static void testApi() {
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("foo", "A");
-		StaticUtil.TestSpringMvc("http://localhost:8080/spring-mvc-showcase/mapping/parameter", param, "get");
+		ErpApiUtil.TestSpringMvc("http://localhost:8080/spring-mvc-showcase/mapping/parameter", param, "get");
 	}
 
 }

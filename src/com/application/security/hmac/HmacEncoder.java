@@ -1,4 +1,4 @@
-package com.application.arithmetic.hmac;
+package com.application.security.hmac;
 
 import java.security.InvalidKeyException;
 import java.security.Key;

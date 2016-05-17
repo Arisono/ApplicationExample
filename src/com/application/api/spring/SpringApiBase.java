@@ -1,10 +1,10 @@
-package com.application.base;
+package com.application.api.spring;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.application.http.httpclient.StaticUtil;
+import com.application.api.erp.ErpApiUtil;
 import com.application.util.HttpUtil.Response;
 
 public class SpringApiBase {
@@ -14,7 +14,7 @@ public class SpringApiBase {
 	 */
 	public static Response load(String url, Map<String, Object> param, LinkedHashMap<String, Object> headers,
 			String bodyJson, String post) {
-		Response response = StaticUtil.commomHttpMethod(url, param, headers, bodyJson, post);
+		Response response = ErpApiUtil.commomHttpMethod(url, param, headers, bodyJson, post);
 		System.out.println("--------------------------------------------------------------");
 		System.out.println(url);
 		System.out.println(response.getResponseText());
@@ -28,7 +28,7 @@ public class SpringApiBase {
 	 * @功能:响应函数 HttpClient方式
 	 */
 	public static Response load() {
-		Response response = StaticUtil.commomHttpMethod(Method.url, Method.param, Method.headers, Method.body,
+		Response response = ErpApiUtil.commomHttpMethod(Method.url, Method.param, Method.headers, Method.body,
 				Method.method);
 		System.out.println(Method.url);
 		System.out.println(response.getResponseText());
@@ -42,7 +42,7 @@ public class SpringApiBase {
 	 * @功能:响应函数 HttpClient方式
 	 */
 	public static Response load(HttpEntity httpEntity) {
-		Response response = StaticUtil.commomHttpMethod(
+		Response response = ErpApiUtil.commomHttpMethod(
 				httpEntity.getUrl(), httpEntity.getParam(), httpEntity.getHeaders(),httpEntity.getBody(),
 				httpEntity.getMethod());
 		System.out.println(Method.url);

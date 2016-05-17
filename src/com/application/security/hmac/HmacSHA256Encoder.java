@@ -1,4 +1,4 @@
-package com.application.arithmetic.hmac;
+package com.application.security.hmac;
 
 public class HmacSHA256Encoder extends HmacEncoder {
 

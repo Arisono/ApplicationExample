@@ -1,15 +1,8 @@
 package com.application.java.io;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-
 import com.application.util.HttpUtil;
 import com.application.util.HttpUtil.Response;
 
