@@ -40,15 +40,17 @@ public class AndroidPushMsgToSingleDevice {
 			notification.put("description","需要紧急处理");
 			notification.put("notification_builder_id", 0);
 			notification.put("notification_basic_style",0x02+0x01+0x04);
-			notification.put("open_type", 0);
-			notification.put("pkg_content", "com.sk.weichat.ui.erp.activity.WebViewLoadActivity");
+			notification.put("open_type", 2);
+			notification.put("pkg_content", "#Intent;component=com.xzjmyk.pm.activity/.ui.message.uas.B2bMsgActivity;end");
 			//notification.put("url", "http://push.baidu.com");
 			JSONObject jsonCustormCont = new JSONObject();
 			jsonCustormCont.put("title", "待处理流程001"); //鑷畾涔夊唴瀹癸紝key-value
 			jsonCustormCont.put("url", "jsps/mobile/task.jsp?caller=ResourceAssignment!Bill%26id=11472"); //鑷畾涔夊唴瀹癸紝key-value
 			jsonCustormCont.put("master", "UAS");
 			jsonCustormCont.put("uu", "10041166");
+			jsonCustormCont.put("pageTitle", "商务消息");
 			jsonCustormCont.put("masterId", "2929");
+			jsonCustormCont.put("content", "爱地球9089");
 			//jsonCustormCont.put("platform", "ERP");
 //			jsonCustormCont.put("title", "待处理流程001"); //鑷畾涔夊唴瀹癸紝key-value
 //			jsonCustormCont.put("url", "jsps/mobile/process.jsp?nodeId=15340079"); //鑷畾涔夊唴瀹癸紝key-value
@@ -59,14 +61,14 @@ public class AndroidPushMsgToSingleDevice {
 			
 			PushMsgToSingleDeviceRequest request = new PushMsgToSingleDeviceRequest()
 					.addChannelId("3955136970545093253")//  3955136970545093253
-					.addMsgExpires(new Integer(1)). // message鏈夋晥鏃堕棿
-					addMessageType(1).// 1锛氶�氱煡,0:閫忎紶娑堟伅. 榛樿涓�0 娉細IOS鍙湁閫氱煡.
+					.addMsgExpires(new Integer(1)). 
+					addMessageType(1).// 
 					addMessage(notification.toString()).
 					addDeviceType(3);// deviceType => 3:android, 4:ios
 			// 5. http request
 			PushMsgToSingleDeviceResponse response = pushClient
 					.pushMsgToSingleDevice(request);
-			// Http璇锋眰缁撴灉瑙ｆ瀽鎵撳嵃
+
 			System.out.println("msgId: " + response.getMsgId() + ",sendTime: "
 					+ response.getSendTime());
 		} catch (PushClientException e) {

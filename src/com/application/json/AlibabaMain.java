@@ -1,6 +1,11 @@
 package com.application.json;
 
+
+
+import java.util.ArrayList;
+
 import com.alibaba.fastjson.JSON;
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 /**
   * @author Administrator
@@ -8,7 +13,18 @@ import com.alibaba.fastjson.JSON;
   */
 public class AlibabaMain {
 	public static void main(String[] args) {
-		TestJSONParseAarray();
+		 ArrayList<ArrayList<String>>  gridlists = new ArrayList<ArrayList<String>>();
+		 String gridData="[[\"\",\"供应商\",\"采购额\"],[\"1\",\"胜芳\",\"152,002\"],[\"2\",\"B2B平台\",\"8,775\"],[\"3\",\"峰闵\",\"2,000\"],[\"4\",\"扬宇\",\"11\"]]";
+		 gridlists=(ArrayList) JSON.parseArray(gridData,ArrayList.class);
+		 
+		 for(int i=0;i<gridlists.size();i++){
+			 for (int j = 0; j < gridlists.get(i).size(); j++) {
+				System.out.println(gridlists.get(i).get(j).toString());
+				
+			}
+		 }
+		 	
+		
 	}
     
 	public static void TestJSONParseAarray(){

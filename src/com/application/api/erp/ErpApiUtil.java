@@ -427,6 +427,16 @@ public class ErpApiUtil {
 			System.out.println(e.getMessage());
 		}
 	}
+	
+//	public static void TestCookie(){
+//        String url="http://218.17.158.219:8090/ERP/common/charts/getSubsDatas.action";
+//	 	Map<String, Object> param = new HashMap<String, Object>();
+//		param.put("user", phone);
+//		param.put("password", password);
+//		param.put(arg0, arg1);
+//	
+//	}
+	
 
 	public static void TestLogin(String phone, String password) {
 		String url = "http://manage.ubtob.com/public/account";

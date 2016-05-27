@@ -797,12 +797,12 @@ public class HttpUtil {
 	  * @author Administrator
 	  * @功能:HttpUrlConnection download
 	  */
-	public static void download(String httpurl,String path){
+	public static String  download(String httpurl,String path){
 		System.out.println("start:"+new SimpleDateFormat("MM-dd:HH:mm:ss:SS").format(new Date()));
 		try {
 			URL url = new URL(httpurl);
 			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-			connection.setRequestMethod("POST");
+			connection.setRequestMethod("GET");
 			connection.setRequestProperty("Charset","UTF-8");
 			connection.setReadTimeout(10*1000);
 			connection.setConnectTimeout(10*1000);
@@ -813,7 +813,7 @@ public class HttpUtil {
 			InputStream  bin=connection.getInputStream();
 			File file = new File(path);
 			if(!file.getParentFile().exists()){
-			file.getParentFile().mkdirs();
+			   file.getParentFile().mkdirs();
 			}
 			OutputStream out=new FileOutputStream(file);
 			int size=0;
@@ -832,7 +832,9 @@ public class HttpUtil {
 				}
 			bin.close();
 			out.close();
+			
 			System.out.println("end:"+new SimpleDateFormat("MM-dd:HH:mm:ss:SS").format(new Date()));
+		   return path;
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (ProtocolException e) {
@@ -848,6 +850,7 @@ public class HttpUtil {
 		} catch (Exception e){
 			e.printStackTrace();
 		} 
+		return null;
 	}
 	
 	
