@@ -7,10 +7,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.application.api.erp.ErpApiUtil;
-import com.application.api.erp.ErpApiUtilMain;
-import com.application.constans.Constans;
 import com.application.util.DateFormatUtil;
-import com.application.util.HttpUtil;
 import com.application.util.HttpUtil.Response;
 import com.application.util.Md5Util;
 
@@ -53,7 +50,7 @@ public class IMAPITestMain {
 		
 	}
 
-	private static void downloadInitIM() {
+	public static void downloadInitIM() {
 		downloadCircleMessage();
 		downloadUserPhoto();
 		downloadAddressBook();
@@ -61,7 +58,7 @@ public class IMAPITestMain {
 		downloadUserInfo();
 	}
 	
-	private static void downloadCircleMessage(){
+	public static void downloadCircleMessage(){
 		String url ="http://113.105.74.140:8092/b/circle/msg/ids";
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("access_token", access_token);
@@ -69,7 +66,7 @@ public class IMAPITestMain {
 		System.out.println(response.getResponseText());
 	}
 	
-	private static void downloadAddressBook(){
+	public static void downloadAddressBook(){
 		String url ="http://113.105.74.140:8092/friends/attention/list";
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("access_token", access_token);
@@ -77,7 +74,7 @@ public class IMAPITestMain {
 		System.out.println(response.getResponseText());
 	}
 	
-	private static void downloadUserInfo(){
+	public static void downloadUserInfo(){
 		String url ="http://113.105.74.140:8092/user/get";
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("access_token", access_token);
@@ -86,7 +83,7 @@ public class IMAPITestMain {
 	}
 
 	
-	private static void downloadUserPhoto(){
+	public static void downloadUserPhoto(){
 		String url ="http://113.105.74.140:8092/user/photo/list";
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("access_token", access_token);
@@ -96,7 +93,7 @@ public class IMAPITestMain {
 	}
 	
 	
-	private static void downloadRoom(){
+	public static void downloadRoom(){
 		String url ="http://113.105.74.140:8092/room/list/his";
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("access_token", access_token);
@@ -107,7 +104,7 @@ public class IMAPITestMain {
 		System.out.println(response.getResponseText());
 	}
 
-/*	private static void getChatImageUrl() {
+/*	public static void getChatImageUrl() {
 		String url ="	http://113.105.74.140:8081/";
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("access_token", access_token);
@@ -116,13 +113,13 @@ public class IMAPITestMain {
 		System.out.println(response.getResponseText());
 	}*/
 
-	private static void printlnDate() {
+	public static void printlnDate() {
 		System.out.println(DateFormatUtil.getFormatDate(1464832126));
 		System.out.println(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.valueOf("1464832126"+"000"))));
 		System.out.println(timeStamp2Date("1464832126", "yyyy-MM-dd HH:mm:ss"));//20160602094858
 	}
 
-	private static void getChatPhotoId() {
+	public static void getChatPhotoId() {
 		String url ="http://113.105.74.140:8092/room/getRelationGroupPhoto";
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("access_token", access_token);
@@ -131,12 +128,11 @@ public class IMAPITestMain {
 		System.out.println(response.getResponseText());
 	}
 	
-	private static void setChatPhotoId() {
+	public static void setChatPhotoId() {
 		String url ="http://113.105.74.140:8092/room/setRelationGroupPhoto";
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("access_token", access_token);
 		param.put("roomId", "58c1be5cb8784dcebd07eb2c5b161c02");
-		long id=System.currentTimeMillis();
 		System.out.println("id="+UUID.randomUUID().toString());
 		param.put("photoid","101010");
 		Response response=	ErpApiUtil.commomHttpMethod(url, param, null, null, "get");
@@ -145,7 +141,7 @@ public class IMAPITestMain {
 
 	
 	
-	private static Response getChatList() {
+	public static Response getChatList() {
 		String url ="http://113.105.74.140:8092/room/list/his";
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("access_token", access_token);

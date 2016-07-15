@@ -454,8 +454,8 @@ public class ErpApiUtil {
 		}
 	}
 
-	public static String TestLoginERP(String phone, String password, String master) {
-		String url_erp = "http://218.17.158.219:8099/ERP/mobile/login.action";
+	public static String TestLoginERP(String url,String phone, String password, String master) {
+		String url_erp = url+"/mobile/login.action";
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("username", phone);
 		param.put("password", password);

@@ -1,5 +1,8 @@
 package com.application.push.baidu;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import net.sf.json.JSONObject;
 
 import com.baidu.yun.core.log.YunLogEvent;
@@ -14,6 +17,34 @@ import com.baidu.yun.push.model.PushMsgToSingleDeviceResponse;
 
 public class AndroidPushMsgToSingleDevice {
 	public static void main(String[] args) throws PushClientException,
+			PushServerException {
+		ExecutorService fixedThreadPool = Executors.newFixedThreadPool(7);
+		for (int i = 0; i <9090; i++) {
+			fixedThreadPool.execute(new Runnable() {
+				
+				@Override
+				public void run() {
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+					}
+			
+					try {
+						pushStart();
+					} catch (PushClientException e) {
+						e.printStackTrace();
+					} catch (PushServerException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+			
+		}
+	
+	}
+
+	private static void pushStart() throws PushClientException,
 			PushServerException {
 		// 1. get apiKey and secretKey from developer console
 		String apiKey = "EmEVqG9NiKchcSbkoGkiyG2F2rp8YNmf";
@@ -36,21 +67,22 @@ public class AndroidPushMsgToSingleDevice {
 		try {
 			// 4. specify request arguments
 			JSONObject notification = new JSONObject();
-			notification.put("title", "待处理流程单据");
-			notification.put("description","需要紧急处理");
+			notification.put("title", "大师兄来访");
+			notification.put("description","收到没？");
 			notification.put("notification_builder_id", 0);
 			notification.put("notification_basic_style",0x02+0x01+0x04);
 			notification.put("open_type", 2);
+			//#Intent;component=com.xzjmyk.pm.activity/.ui.message.uas.B2bMsgActivity;end
 			notification.put("pkg_content", "#Intent;component=com.xzjmyk.pm.activity/.ui.message.uas.B2bMsgActivity;end");
 			//notification.put("url", "http://push.baidu.com");
 			JSONObject jsonCustormCont = new JSONObject();
 			jsonCustormCont.put("title", "待处理流程001"); //鑷畾涔夊唴瀹癸紝key-value
 			jsonCustormCont.put("url", "jsps/mobile/task.jsp?caller=ResourceAssignment!Bill%26id=11472"); //鑷畾涔夊唴瀹癸紝key-value
-			jsonCustormCont.put("master", "UAS");
+			jsonCustormCont.put("master", "USOFTSYS");
 			jsonCustormCont.put("uu", "10041166");
 			jsonCustormCont.put("pageTitle", "商务消息");
 			jsonCustormCont.put("masterId", "2929");
-			jsonCustormCont.put("content", "爱地球9089");
+			jsonCustormCont.put("content", "中国人民解放军");
 			//jsonCustormCont.put("platform", "ERP");
 //			jsonCustormCont.put("title", "待处理流程001"); //鑷畾涔夊唴瀹癸紝key-value
 //			jsonCustormCont.put("url", "jsps/mobile/process.jsp?nodeId=15340079"); //鑷畾涔夊唴瀹癸紝key-value
@@ -60,7 +92,7 @@ public class AndroidPushMsgToSingleDevice {
 			notification.put("custom_content", jsonCustormCont);
 			
 			PushMsgToSingleDeviceRequest request = new PushMsgToSingleDeviceRequest()
-					.addChannelId("3955136970545093253")//  3955136970545093253
+					.addChannelId("3662584296662527934")//  3955136970545093253
 					.addMsgExpires(new Integer(1)). 
 					addMessageType(1).// 
 					addMessage(notification.toString()).

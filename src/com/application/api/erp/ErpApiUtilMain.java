@@ -1,9 +1,5 @@
 package com.application.api.erp;
 
-import java.util.Date;
-
-import com.application.util.DateFormatUtil;
-
 /**
  * @author :LiuJie 2015年8月25日 下午2:40:14
  * @注释:  测试Http请求的类
@@ -11,12 +7,11 @@ import com.application.util.DateFormatUtil;
 public class ErpApiUtilMain {
 
 	public static void main(String[] args) {
-		  ErpApiUtil.TestLogin("15989589091", "qwerty");
-		 // ErpApiUtil.TestLoginERP("13352991628", "az00213381", "USOFTSYS");
-//		startThread();
+		 ErpApiUtil.TestLogin("18666222419", "123456");
+		 ErpApiUtil.TestLoginERP("http://218.17.161.61:8099/ERP/","18666222419", "123456", "NDataCenter");
 	}
 
-	private static void startThread() {
+	public static void startThread() {
 		Thread thread=new Thread(new Runnable() {
 			
 			@Override
@@ -32,11 +27,6 @@ public class ErpApiUtilMain {
 			}
 		});
 		thread.start();
-		
-//		while(thread.isAlive()){
-//			System.out.println("线程正在运行。。。。。。"+DateFormatUtil.getChineseDateTime(new Date()));
-//		}
-//		System.out.println("线程结束");
 	}
 	
 }

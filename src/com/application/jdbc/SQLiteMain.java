@@ -9,34 +9,30 @@ import java.util.List;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.application.api.erp.ErpHttpMain;
-import com.application.constans.Constans;
 import com.application.entity.EmployeesEntity;
 import com.application.entity.HrorgsEntity;
-import com.application.util.HttpUtil.Response;
 
 public class SQLiteMain {
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		 Connection conn=null;
 		 try {
 			 Class.forName("org.sqlite.JDBC");
 			 conn =
 			 DriverManager.getConnection("jdbc:sqlite:C:/Users/Administrator/Documents/UAS");
-			 @SuppressWarnings("unused")
 			 Statement stat =  conn.createStatement();
 			 conn.setAutoCommit(true);
-			 @SuppressWarnings("unused")
 			 String date="2016-01-22 15:45:01";
 			 String date1="";
-			 Response respon= ErpHttpMain.getAllHrorgEmps(
-					 Constans.ERP_GETALLHRORGEMPS,"USOFTSYS",
-					 date1,
-					 ErpHttpMain.getCookieLogin(
-							 "13352991628",
-							 "az00213381",
-							 "USOFTSYS"));
-			 System.out.println(respon.getResponseText());
+//			 Response respon= ErpHttpMain.getAllHrorgEmps(
+//					 Constans.ERP_GETALLHRORGEMPS,"USOFTSYS",
+//					 date1,
+//					 ErpHttpMain.getCookieLogin(
+//							 "13352991628",
+//							 "az00213381",
+//							 "USOFTSYS"));
+//			 System.out.println(respon.getResponseText());
 //			 JSONObject object= JSON.parseObject(respon.getResponseText());
 			 //InserData(conn, object);
 			 
@@ -56,8 +52,8 @@ public class SQLiteMain {
 	private static void InserData(Connection conn, JSONObject object) throws SQLException {
 		List<HrorgsEntity> hrorgsEntities= JSON.parseArray(object.getString("hrorgs"),HrorgsEntity.class);
 		List<EmployeesEntity> employeesEntities=JSON.parseArray(object.getString("employees"),EmployeesEntity.class);
-		System.out.println("组织架构："+hrorgsEntities.size());
-		System.out.println("员工数量："+employeesEntities.size());
+		System.out.println("缁勭粐鏋舵瀯锛�"+hrorgsEntities.size());
+		System.out.println("鍛樺伐鏁伴噺锛�"+employeesEntities.size());
 		 
 		 
 	    PreparedStatement prep = conn.prepareStatement(

@@ -64,7 +64,7 @@ public class NineRect {
 		}
 	}
 	
-	private static int getMeetingMemberCount(){
+	public static int getMeetingMemberCount(){
 		return 1;
 	}
 	

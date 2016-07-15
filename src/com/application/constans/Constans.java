@@ -25,7 +25,7 @@ public class Constans {
 
 
      /**@注释：erp 根路径  */
-	 public static String ERP_BASIC="http://218.17.158.219:8099/ERP/";
+	 public static String ERP_BASIC="http://218.17.158.219:8090/ERP/";
      //public static String ERP_BASIC="http://218.18.115.198:8081/ERP/";
 	 public static String ERP_BASIC_YINTANG="http://218.18.115.198:8888/ERP/";
 	 /**@注释：erp测试 根路径  */

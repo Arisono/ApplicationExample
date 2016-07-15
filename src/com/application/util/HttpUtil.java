@@ -189,6 +189,7 @@ public class HttpUtil {
 			Map<String, Object> params,LinkedHashMap<String, Object> headers, boolean sign) throws Exception {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
 		CloseableHttpResponse response = null;
+		System.out.println(params.toString());
 		if (sign) {
 			url += (url.indexOf("?") == -1 ? "?" : "&") + "_timestamp="
 					+Long.valueOf("1441180144");
@@ -201,11 +202,15 @@ public class HttpUtil {
 			if (params != null && !params.isEmpty()) {
 				Set<Entry<String, Object>> entrys = params.entrySet();
 				for (Map.Entry<String, Object> entry : entrys) {
-					nvps.add(new BasicNameValuePair(entry.getKey(), URLEncoder
-							.encode(entry.getValue().toString(), "utf-8")));
+					nvps.add(new BasicNameValuePair(entry.getKey(), 
+							URLDecoder.decode(
+									entry.getValue().toString()
+									, "utf-8")
+									)
+					);
 				}
 			}
-			httpPost.setEntity(new UrlEncodedFormEntity(nvps));
+			httpPost.setEntity(new UrlEncodedFormEntity(nvps, HTTP.UTF_8));
 			RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(8000).setConnectTimeout(8000).build();//设置请求和传输超时时间
 			httpPost.setConfig(requestConfig);
 			if (headers!=null) {
@@ -214,8 +219,9 @@ public class HttpUtil {
 					httpPost.setHeader(key, headers.get(key).toString());
 				}
 			}
+			 httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 			response = httpClient.execute(httpPost);
-			System.out.println(response.getHeaders("location")[0].getValue());
+			//System.out.println(response.getHeaders("location")[0].getValue());
 			return Response.getResponse(response);
 		} finally {
 			httpPost.releaseConnection();
