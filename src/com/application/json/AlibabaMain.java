@@ -18,12 +18,15 @@ public class AlibabaMain {
 	}
 	
 	private static void testNull() {
-		String json="{\"success\":true,\"combo\":[]}";
-	    JSONArray array=JSON.parseObject(json).getJSONArray("combos");
+		String json="{\"success\":true,\"combo\":[],\"count\":null}";
+	    JSONArray array=JSON.parseObject(json).getJSONArray("combo");
+	   
         System.out.println(array==null);
         System.out.println(array.isEmpty());
+        System.out.println(array.size());
+        System.out.println(JSON.parseObject(json).getIntValue("count"));
         //注意防止异常
-        System.out.println(array.getJSONObject(2));
+        //System.out.println(array.getJSONObject(2));
 	}
 	/**
 	 * 去对象JSONObject-数组JSONArray-对象JSONObject-字符串String
