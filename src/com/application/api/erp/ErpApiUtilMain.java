@@ -7,7 +7,7 @@ package com.application.api.erp;
 public class ErpApiUtilMain {
 
 	public static void main(String[] args) {
-		 ErpApiUtil.TestLogin("18666222419", "123456");
+		 //ErpApiUtil.TestLogin("18666222419", "123456");
 		 ErpApiUtil.TestLoginERP("http://218.17.161.61:8099/ERP/","18666222419", "123456", "NDataCenter");
 	}
 

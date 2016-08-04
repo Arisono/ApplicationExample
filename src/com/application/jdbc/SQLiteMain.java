@@ -9,8 +9,11 @@ import java.util.List;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.application.api.erp.ErpHttpMain;
+import com.application.constans.Constans;
 import com.application.entity.EmployeesEntity;
 import com.application.entity.HrorgsEntity;
+import com.application.util.HttpUtil.Response;
 
 public class SQLiteMain {
 
@@ -18,22 +21,24 @@ public class SQLiteMain {
 	public static void main(String[] args) {
 		 Connection conn=null;
 		 try {
-			 Class.forName("org.sqlite.JDBC");
-			 conn =
-			 DriverManager.getConnection("jdbc:sqlite:C:/Users/Administrator/Documents/UAS");
-			 Statement stat =  conn.createStatement();
-			 conn.setAutoCommit(true);
+//			 Class.forName("org.sqlite.JDBC");
+//			 conn =
+//			 DriverManager.getConnection("jdbc:sqlite:C:/Users/Administrator/Documents/UAS");
+//			 Statement stat =  conn.createStatement();
+//			 conn.setAutoCommit(true);
 			 String date="2016-01-22 15:45:01";
 			 String date1="";
-//			 Response respon= ErpHttpMain.getAllHrorgEmps(
-//					 Constans.ERP_GETALLHRORGEMPS,"USOFTSYS",
-//					 date1,
-//					 ErpHttpMain.getCookieLogin(
-//							 "13352991628",
-//							 "az00213381",
-//							 "USOFTSYS"));
-//			 System.out.println(respon.getResponseText());
-//			 JSONObject object= JSON.parseObject(respon.getResponseText());
+			 Response respon= ErpHttpMain.getAllHrorgEmps(
+					 "http://218.18.115.198:8887/ERP/mobile/getAllHrorgEmps.action",
+					 "USOFT_MALL",
+					 date1,
+					 ErpHttpMain.getCookieLogin(
+							 "http://218.18.115.198:8887/ERP/mobile/login.action",
+							 "13418872805",
+							 "111111",
+							 "USOFT_MALL"));
+			 System.out.println(respon.getResponseText());
+			 JSONObject object= JSON.parseObject(respon.getResponseText());
 			 //InserData(conn, object);
 			 
 //			 ResultSet rs = stat.executeQuery("select * from employees;");
@@ -42,8 +47,6 @@ public class SQLiteMain {
 //			  }
 			 conn.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
