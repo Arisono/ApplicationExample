@@ -23,7 +23,7 @@ public class AlibabaMain {
 	   
         System.out.println(array==null);
         System.out.println(array.isEmpty());
-        System.out.println(array.size());
+        System.out.println(array.size()>0);
         System.out.println(JSON.parseObject(json).getIntValue("count"));
         //注意防止异常
         //System.out.println(array.getJSONObject(2));

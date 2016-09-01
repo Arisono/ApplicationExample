@@ -7,8 +7,8 @@ package com.application.api.erp;
 public class ErpApiUtilMain {
 
 	public static void main(String[] args) {
-		 //ErpApiUtil.TestLogin("18666222419", "123456");
-		 ErpApiUtil.TestLoginERP("http://218.17.161.61:8099/ERP/","18666222419", "123456", "NDataCenter");
+		 ErpApiUtil.TestLogin("15913161000", "1");
+		 ErpApiUtil.TestLoginERP("http://218.17.158.219:8090/ERP//","15913161000", "1", "UAS");
 	}
 
 	public static void startThread() {
