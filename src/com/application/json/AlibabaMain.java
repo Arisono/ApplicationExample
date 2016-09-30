@@ -13,12 +13,20 @@ import com.alibaba.fastjson.JSONArray;
   */
 public class AlibabaMain {
 	public static void main(String[] args) {
-		testNull();
+		testIntValue();
 		
 	}
 	
+	private static void testIntValue(){
+		String json="{\"sex\":1,\"sex1\":\"1\",\"sexs\":[\"2\",1,\"liujie\",{\"ages\":\"123\",\"age\":124}],\"key\":null}";
+		System.out.println(JSON.parseObject(json).getIntValue("sex1"));
+		System.out.println(JSON.parseObject(json).getJSONArray("sexs").getIntValue(0));
+		System.out.println(JSON.parseObject(json).getJSONArray("sexs").getString(0));
+		System.out.println(JSON.parseObject(json).getJSONArray("sexs").getString(0));
+	}
+	
 	private static void testNull() {
-		String json="{\"success\":true,\"combo\":[],\"count\":null}";
+		String json="{\"success\":true,\"combo\":[],\"count\":\"1\"}";
 	    JSONArray array=JSON.parseObject(json).getJSONArray("combo");
 	   
         System.out.println(array==null);

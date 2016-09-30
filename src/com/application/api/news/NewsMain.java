@@ -21,7 +21,7 @@ public class NewsMain<T> {
 	private static String url = Constans.API_NEWS;
 	
 	public static void main(String[] args) {
-		getNewsList(1, "国内最新");
+		System.out.println(getNewsList(1, "国内最新").getResponseText());
 	}
 
 	public static Response getNewsList(int page,String channelName) {

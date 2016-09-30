@@ -6,9 +6,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.alibaba.fastjson.JSON;
 import com.application.constans.Constans;
+import com.application.util.DateFormatUtil;
 import com.application.util.HttpUtil;
 import com.application.util.HttpUtil.Response;
 
@@ -17,31 +20,143 @@ import com.application.util.HttpUtil.Response;
  * @功能:uas 接口测试
  */
 public class ErpHttpMain {
+	public static String formStore = "{\"ct_name\":\"wang二\",\"ct_sex\":1,\"ct_cuname\":\"12\",\"ct_dept\":\"研发部\",\"ct_position\":\"工程师\",\"ct_officephone\":\"1132213\",\"ct_mobile\":\"13266699268\",\"ct_personemail\":\"728437832@qq.com\",\"ct_address\":\"深圳市\",\"ct_birthday\":\"1990-08-11\",\"ct_reamrk\":\"似懂非懂\",\"ct_attach\":\"12\"}";
 	public static Map<String, Object> param = new HashMap<String, Object>();
 	public static LinkedHashMap<String, Object> headers = new LinkedHashMap<>();
-	public static String url = "http://218.17.158.219:8090/ERP/";
+    //public static String url = "http://218.17.158.219:8090/ERP/";
+	//http://218.17.158.219:8090/ERP/
+	public static String url = "http://192.168.253.233:8080/ERP/";
 	public static String sessionId;
-	public static String formStore = "{\"ct_name\":\"wang二\",\"ct_sex\":1,\"ct_cuname\":\"12\",\"ct_dept\":\"研发部\",\"ct_position\":\"工程师\",\"ct_officephone\":\"1132213\",\"ct_mobile\":\"13266699268\",\"ct_personemail\":\"728437832@qq.com\",\"ct_address\":\"深圳市\",\"ct_birthday\":\"1990-08-11\",\"ct_reamrk\":\"似懂非懂\",\"ct_attach\":\"12\"}";
+	
 
 	public static void main(String[] args) {
-		sessionId = getCookieLogin(url + "mobile/login.action", "13266699268",
-				"1", "UAS");
-		testBusinessLess();
+		if (sessionId==null) {
+			sessionId = getCookieLogin(url + "mobile/login.action", "18720918361",
+					"925146442", "UAS");
+			System.out.println("登陆session:"+sessionId);
+		}
+		testSession(sessionId);
 	}
-
-	public static void testBusinessLess() {
-		url = url + "/mobile/crm/updateSchedule.action";
-		param.put("code", "2016081764");
-		headers.put("Cookie", "JSESSIONID=" + sessionId);
+	
+	
+	public static void loadSessionId(String url,String sessionId){
+		String log_url = url ;
+        System.out.println(url);
+		//headers.put("Cookie", "JSESSIONID=" + sessionId);
+		headers.put("sessionUser", "JASON");
+		//System.out.println("cookie session:"+sessionId);
+		//headers.put("sessionUser", "L00010102002");
 		try {
-			Response response = HttpUtil.sendPostHeaderRequest(url, param,
+			Response response = HttpUtil.sendGetHeaderRequest(log_url, param,
 					headers, false);
+			// System.out.println(response.getStatusCode());
+			if (response.getStatusCode() == 500
+					|| response.getStatusCode() == 404) {
+				throw new Exception("会话超时！");
+			}
 			System.out.println(response.getStatusCode());
-			System.out.println(response.getResponseText());
+//			sessionId = JSON.parseObject(response.getResponseText()).getString(
+//					"sessionId");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	public static void loadCompanyData(){
+		String log_url = url + "mobile/getAllHrorgEmps.action";
+		param.put("master", "UAS");
+		param.put("lastdate", "");
+		param.put("sessionId", sessionId);
+		headers.put("Cookie", "JSESSIONID=" + sessionId);
+		System.out.println("cookie session:"+sessionId);
+		//headers.put("sessionUser", "L00010102002");
+		try {
+			Response response = HttpUtil.sendPostHeaderRequest(log_url, param,
+					headers, false);
+			// System.out.println(response.getStatusCode());
+			if (response.getStatusCode() == 500
+					|| response.getStatusCode() == 404) {
+				throw new Exception("会话超时！");
+			}
+			System.out.println(response.getResponseText());
+			sessionId = JSON.parseObject(response.getResponseText()).getString(
+					"sessionId");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 测试session
+	 */
+	public static void testSession(final String sessionId) {
+		Timer timer = new Timer();
+		TimerTask task = new TimerTask() {
+
+			@Override
+			public void run() {
+				System.out.println("开始任务!"+DateFormatUtil.getCurrentHour()+":"
+			+DateFormatUtil.getCurrentMinute()+":"+DateFormatUtil.getCurrentSecond());
+				loadSessionId(url+"common/charts/mobilePreview.action?id=4712&sessionId="+sessionId+"&sessionUser=JASON&master=UAS", sessionId);
+				System.out.println("结束任务!");
+			}
+		};
+
+		timer.schedule(task, 5, 10000);
+	}
+	
+	public static void testBusinessLess() {
+		String log_url = url + "/mobile/crm/updateSchedule.action";
+		param.put("code", "2016081764");
+		//param.put("sessionId", sessionId);
+		headers.put("Cookie", "JSESSIONID=" + sessionId);
+		//headers.put("sessionUser", "L00010102002");
+		try {
+			Response response = HttpUtil.sendPostHeaderRequest(log_url, param,
+					headers, false);
+			// System.out.println(response.getStatusCode());
+			if (response.getStatusCode() == 500
+					|| response.getStatusCode() == 404) {
+				throw new Exception("会话超时！");
+			}
+			System.out.println(response.getResponseText());
+			sessionId = JSON.parseObject(response.getResponseText()).getString(
+					"sessionId");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	public static void testCustomerAdd(){
+		 String formStore="{\"cu_id\":50499,\"cu_recordman\":\"刘杰\",\"cu_recorddate\":\"2016-09-22 11:10:12\",\"cu_status\":\"长期\",\"cu_arcode\":\"\",\"cu_arname\":\"\",\"cu_code\":\"2016090268\",\"cu_name\":\"你的发挥\",\"cu_shortname\":\"\",\"cu_add1\":\"很喜欢好像\",\"cu_kind\":\"哦哦哦\",\"cu_district\":\"华东地区\",\"cu_auditstatus\":\"在录入\",\"cu_auditstatuscode\":\"ENTERING\",\"cu_sellercode\":\"zhouy\",\"cu_payments\":\"%E4%B8%AD%E6%9C%9F35%25%EF%BC%8C%E6%9C%9F%E6%9C%AB65%25\",\"cu_paymentscode\":\"SK007\",\"cu_sellername\":\"周袁\",\"cu_contact\":\"就喜欢电话\",\"cu_degree\":\"火凤凰到家\",\"cu_mobile\":\"165486497676\",\"cu_email\":\"4676675@qq.com\",\"cu_businesscode\":\"gdhsjsjksk@qq.com\",\"cu_currency\":\"RMB\",\"cu_taxrate\":\"25\",\"cu_nichestep\":\"初次沟通\",\"cu_remark\":\"\"}";
+		 
+		 String log_url =url+ "scm/sale/saveCustomerBase.action";;
+		 param.put("caller", "Customer!Base");
+		 param.put("formStore", formStore);
+		 headers.put("Cookie", "JSESSIONID=" + sessionId);
+		 headers.put("sessionUser", "L00010102002");
+		try {
+			Response response = HttpUtil.sendPostHeaderRequest(log_url, param,
+					headers, false);
+			// System.out.println(response.getStatusCode());
+			if (response.getStatusCode() == 500
+					|| response.getStatusCode() == 404) {
+				throw new Exception("会话超时！");
+			}
+			System.out.println(response.getResponseText());
+			sessionId = JSON.parseObject(response.getResponseText()).getString(
+					"sessionId");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+
+
 
 	/**
 	 * 
@@ -228,14 +343,14 @@ public class ErpHttpMain {
 			LinkedHashMap<String, Object> headers, String bodyJson, String post) {
 		Response response = ErpApiUtil.commomHttpMethod(url, param, headers,
 				bodyJson, post);
-		System.out
-				.println("--------------------------------------------------------------");
+//		System.out
+//				.println("--------------------------------------------------------------");
 		System.out.println(response.getResponseText());
-		System.out.println(response.getStatusCode());
-		System.out.println(url);
-		// System.out.println("-- "+response.getCookieStore());
-		System.out
-				.println("--------------------------------------------------------------");
+//		System.out.println(response.getStatusCode());
+//		System.out.println("url:"+url);
+//		// System.out.println("-- "+response.getCookieStore());
+//		System.out
+//				.println("--------------------------------------------------------------");
 		return response;
 	}
 

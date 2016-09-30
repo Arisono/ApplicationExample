@@ -445,7 +445,7 @@ public class ErpApiUtil {
 		param.put("password", password);
 		try {
 			// 管理平台经过加密的
-			Response response = HttpUtil.sendGetRequest(url, param, true);
+			Response response = HttpUtil.sendGetRequest(url, param,false);
 			System.out.println("login 状态码：" + response.getStatusCode());
 			System.out.println("login 正文：" + response.getResponseText());
 		} catch (Exception e) {
@@ -462,7 +462,7 @@ public class ErpApiUtil {
 		param.put("master", master);
 		try {
 			System.out.println(url_erp);
-			Response response = HttpUtil.sendPostRequest(url_erp, param, true);
+			Response response = HttpUtil.sendPostRequest(url_erp, param, false);
 			System.out.println("" + response.getStatusCode());
 			System.out.println("" + response.getResponseText());
 			String jessonid = FlexJsonUtil.fromJson(response.getResponseText()).get("sessionId").toString();
@@ -494,8 +494,8 @@ public class ErpApiUtil {
 		}
 	}
 
-	public static String TestLoginB2B(String phone, String password) {
-		String url = "http://www.ubtob.com/j_spring_security_check";
+	public static String TestLoginB2B(String url,String phone, String password) {
+		
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("j_username", phone);
 		param.put("j_password", password);

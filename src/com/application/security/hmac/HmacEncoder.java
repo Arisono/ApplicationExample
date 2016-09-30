@@ -10,92 +10,82 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
- * Hash-based message authentication
- * code锛屽埄鐢ㄥ搱甯岀畻娉曪紝浠ヤ竴涓瘑閽ュ拰涓�釜娑堟伅涓鸿緭鍏ワ紝鐢熸垚涓�釜娑堟伅鎽樿浣滀负杈撳嚭
- * 
- * @author yingp
+ * Hash-based message authentication code，利用哈希算法，以一个密钥和一个消息为输入，生成一个消息摘要作为输出
  *
+ * @author yingp
  */
 public class HmacEncoder {
 
-	private final String algorithm;
+    private final String algorithm;
 
-	public HmacEncoder(String algorithm) {
-		this.algorithm = algorithm;
-	}
+    public HmacEncoder(String algorithm) {
+        this.algorithm = algorithm;
+    }
 
-	/**
-	 * 鏍规嵁缁欏畾瀵嗛挜鐢熸垚绠楁硶鍒涘缓瀵嗛挜
-	 * 
-	 * @param algorithm
-	 *            瀵嗛挜绠楁硶
-	 * @return 瀵嗛挜
-	 * @throws RuntimeException
-	 *             褰�{@link java.security.NoSuchAlgorithmException} 鍙戠敓鏃�
-	 */
-	public byte[] getKey() {
-		// 鍒濆鍖朘eyGenerator
-		KeyGenerator keyGenerator = null;
-		try {
-			keyGenerator = KeyGenerator.getInstance(algorithm);
-		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException(e.getMessage());
-		}
-		// 浜х敓瀵嗛挜
-		SecretKey secretKey = keyGenerator.generateKey();
-		// 鑾峰緱瀵嗛挜
-		return secretKey.getEncoded();
-	}
+    /**
+     * 转换密钥
+     *
+     * @param key       二进制密钥
+     * @param algorithm 密钥算法
+     * @return 密钥
+     */
+    private static Key toKey(byte[] key, String algorithm) {
+        // 生成密钥
+        return new SecretKeySpec(key, algorithm);
+    }
 
-	/**
-	 * 杞崲瀵嗛挜
-	 * 
-	 * @param key
-	 *            浜岃繘鍒跺瘑閽�
-	 * @param algorithm
-	 *            瀵嗛挜绠楁硶
-	 * @return 瀵嗛挜
-	 */
-	private static Key toKey(byte[] key, String algorithm) {
-		// 鐢熸垚瀵嗛挜
-		return new SecretKeySpec(key, algorithm);
-	}
+    /**
+     * 根据给定密钥生成算法创建密钥
+     *
+     * @param algorithm 密钥算法
+     * @return 密钥
+     * @throws RuntimeException 当 {@link NoSuchAlgorithmException} 发生时
+     */
+    public byte[] getKey() {
+        // 初始化KeyGenerator
+        KeyGenerator keyGenerator = null;
+        try {
+            keyGenerator = KeyGenerator.getInstance(algorithm);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        // 产生密钥
+        SecretKey secretKey = keyGenerator.generateKey();
+        // 获得密钥
+        return secretKey.getEncoded();
+    }
 
-	/**
-	 * 浣跨敤鎸囧畾娑堟伅鎽樿绠楁硶璁＄畻娑堟伅鎽樿
-	 * 
-	 * @param data
-	 *            鍋氭秷鎭憳瑕佺殑鏁版嵁
-	 * @param key
-	 *            瀵嗛挜
-	 * @return 娑堟伅鎽樿锛堥暱搴︿负16鐨勫瓧鑺傛暟缁勶級
-	 */
-	public byte[] encode(byte[] data, Key key) {
-		Mac mac = null;
-		try {
-			mac = Mac.getInstance(algorithm);
-			mac.init(key);
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-			return new byte[0];
-		} catch (InvalidKeyException e) {
-			e.printStackTrace();
-			return new byte[0];
-		}
-		return mac.doFinal(data);
-	}
+    /**
+     * 使用指定消息摘要算法计算消息摘要
+     *
+     * @param data 做消息摘要的数据
+     * @param key  密钥
+     * @return 消息摘要（长度为16的字节数组）
+     */
+    public byte[] encode(byte[] data, Key key) {
+        Mac mac = null;
+        try {
+            mac = Mac.getInstance(algorithm);
+            mac.init(key);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return new byte[0];
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+            return new byte[0];
+        }
+        return mac.doFinal(data);
+    }
 
-	/**
-	 * 浣跨敤鎸囧畾娑堟伅鎽樿绠楁硶璁＄畻娑堟伅鎽樿
-	 * 
-	 * @param data
-	 *            鍋氭秷鎭憳瑕佺殑鏁版嵁
-	 * @param key
-	 *            瀵嗛挜
-	 * @return 娑堟伅鎽樿锛堥暱搴︿负16鐨勫瓧鑺傛暟缁勶級
-	 */
-	public byte[] encode(byte[] data, byte[] key) {
-		return encode(data, toKey(key, algorithm));
-	}
+    /**
+     * 使用指定消息摘要算法计算消息摘要
+     *
+     * @param data 做消息摘要的数据
+     * @param key  密钥
+     * @return 消息摘要（长度为16的字节数组）
+     */
+    public byte[] encode(byte[] data, byte[] key) {
+        return encode(data, toKey(key, algorithm));
+    }
 
 }

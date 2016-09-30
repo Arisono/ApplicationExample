@@ -3,8 +3,7 @@ package com.application.push.baidu;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import net.sf.json.JSONObject;
-
+import com.alibaba.fastjson.JSONObject;
 import com.baidu.yun.core.log.YunLogEvent;
 import com.baidu.yun.core.log.YunLogHandler;
 import com.baidu.yun.push.auth.PushKeyPair;
@@ -19,7 +18,7 @@ public class AndroidPushMsgToSingleDevice {
 	public static void main(String[] args) throws PushClientException,
 			PushServerException {
 		ExecutorService fixedThreadPool = Executors.newFixedThreadPool(7);
-		for (int i = 0; i <9090; i++) {
+		for (int i = 0; i <1; i++) {
 			fixedThreadPool.execute(new Runnable() {
 				
 				@Override
@@ -92,7 +91,7 @@ public class AndroidPushMsgToSingleDevice {
 			notification.put("custom_content", jsonCustormCont);
 			
 			PushMsgToSingleDeviceRequest request = new PushMsgToSingleDeviceRequest()
-					.addChannelId("3662584296662527934")//  3955136970545093253
+					.addChannelId("3955136970545093253")//  3955136970545093253
 					.addMsgExpires(new Integer(1)). 
 					addMessageType(1).// 
 					addMessage(notification.toString()).
