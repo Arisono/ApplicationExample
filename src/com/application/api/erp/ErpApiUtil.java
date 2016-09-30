@@ -494,8 +494,8 @@ public class ErpApiUtil {
 		}
 	}
 
-	public static String TestLoginB2B(String phone, String password) {
-		String url = "http://www.ubtob.com/j_spring_security_check";
+	public static String TestLoginB2B(String url,String phone, String password) {
+		
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("j_username", phone);
 		param.put("j_password", password);

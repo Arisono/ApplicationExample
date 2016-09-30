@@ -7,8 +7,11 @@ package com.application.api.erp;
 public class ErpApiUtilMain {
 
 	public static void main(String[] args) {
-		 ErpApiUtil.TestLogin("15913161000", "1");
-		 ErpApiUtil.TestLoginERP("http://218.17.158.219:8090/ERP//","15913161000", "1", "UAS");
+
+		 ErpApiUtil.TestLogin("13416410624", "1");
+		 ErpApiUtil.TestLoginERP("http://218.17.158.219:8090/ERP//","13509628051", "111111", "UAS");
+	//     ErpApiUtil.TestLoginB2B("http://uas.ubtob.com/j_spring_security_check","13266699268", "1");
+	
 	}
 
 	public static void startThread() {
