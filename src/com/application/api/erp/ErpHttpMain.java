@@ -90,6 +90,7 @@ public class ErpHttpMain {
 	/**
 	 * 测试session
 	 */
+
 	public static void testSession(final String sessionId) {
 		Timer timer = new Timer();
 		TimerTask task = new TimerTask() {
@@ -114,6 +115,7 @@ public class ErpHttpMain {
 		//headers.put("sessionUser", "L00010102002");
 		try {
 			Response response = HttpUtil.sendPostHeaderRequest(log_url, param,
+
 					headers, false);
 			// System.out.println(response.getStatusCode());
 			if (response.getStatusCode() == 500
@@ -155,6 +157,7 @@ public class ErpHttpMain {
 	}
 	
 	
+
 
 
 

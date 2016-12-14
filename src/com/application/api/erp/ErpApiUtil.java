@@ -47,6 +47,8 @@ import com.application.util.HttpUtil.Response;
  *
  */
 public class ErpApiUtil {
+	
+
 
 	/** @注释：新闻 */
 	public static void getNews() {
@@ -497,10 +499,14 @@ public class ErpApiUtil {
 	public static String TestLoginB2B(String url,String phone, String password) {
 		
 		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("j_username", phone);
-		param.put("j_password", password);
+		param.put("username", phone);
+		param.put("password", password);
+		param.put("spaceId", "76035");
+		param.put("appId", "b2b");
 		try {
-			Response response = HttpUtil.sendPostRequestNew(url, param, true);
+			Response response = HttpUtil.sendPostRequestNew(url, param, false);
+			System.out.println("headers:"+JSON.toJSONString(response.getHttpResponse().getHeaders("Set-Cookie")[0].getValue()));
+			System.out.println("headers:"+JSON.toJSONString(response.getHttpResponse().getHeaders("Set-Cookie")[1].getValue()));
 			System.out.println("status:" + response.getStatusCode());
 			System.out.println("text:" + response.getResponseText());
 			org.apache.http.client.CookieStore cookieStore = Response.cookieStore;

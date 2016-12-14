@@ -45,6 +45,8 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.params.CookiePolicy;
+import org.apache.http.client.params.HttpClientParams;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
@@ -65,6 +67,7 @@ import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.ssl.TrustStrategy;
 import org.apache.http.util.EntityUtils;
 
+import com.alibaba.fastjson.JSON;
 import com.application.json.FlexJsonUtil;
 import com.application.security.hmac.HmacUtils;
 
@@ -478,9 +481,9 @@ public class HttpUtil {
 			httpPost.setHeader("Cookie",
 					"JSESSIONID=" + params.get("sessionId"));
 			//httpPost.setEntity(new StringEntity(FlexJsonUtil.toJson(params)));、
-			
+			//HttpClientParams.setCookiePolicy(httpClient.getParams(), CookiePolicy.BROWSER_COMPATIBILITY); 
 			response = httpClient.execute(httpPost);
-			CookieStore cookieStore = ((AbstractHttpClient) httpClient)
+			CookieStore cookieStore = ( httpClient)
 					.getCookieStore();
 		    Response.cookieStore=cookieStore;
 			System.out.println(cookieStore.toString());
